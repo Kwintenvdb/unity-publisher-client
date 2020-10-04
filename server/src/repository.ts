@@ -21,4 +21,10 @@ export class Repository {
             statement.run(pkg.id, pkg.name, pkg.short_url);
         });
     }
+
+    public getPackages() {
+        const statement = this.db.prepare('SELECT * FROM packages');
+        const packages = statement.all();
+        console.log(packages);
+    }
 }

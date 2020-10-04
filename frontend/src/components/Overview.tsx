@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import superagent from 'superagent';
 import { useForm } from 'react-hook-form';
 import { MonthData } from 'unity-publisher-api/dist/api/models/monthData';
+import { SalesData } from 'unity-publisher-api/dist/api/models/salesData';
 
 interface FormData {
     email: string;
@@ -13,6 +14,7 @@ function Overview() {
     const [authenticated, setAuthenticated] = useState(false);
     const [months, setMonths] = useState<MonthData[]>([]);
     const [selectedMonth, setSelectedMonth] = useState<string>('');
+    const [sales, setSales] = useState<SalesData[]>();
 
     useEffect(() => {
         superagent.get('/api/isAuthenticated')
@@ -36,15 +38,21 @@ function Overview() {
                 console.log(res.body);
                 const m = res.body;
                 setMonths(m);
-                setSelectedMonth(m[0].value);
+                setMonth(m[0].value);
                 return res.body;
             });
     };
 
-    const getSales = () => {
-        return superagent.get('/api/sales/' + selectedMonth)
+    const setMonth = (month: string) => {
+        setSelectedMonth(month);
+        getSales(month);
+    }
+
+    const getSales = (month: string) => {
+        return superagent.get('/api/sales/' + month)
             .then(res => {
                 console.log(res.body);
+                setSales(res.body);
             });
     };
 
@@ -63,16 +71,38 @@ function Overview() {
         return (
             <div>
                 <button onClick={getMonths}>Get months</button>
-                <button onClick={getSales}>Get sales</button>
 
                 <div>
-                    <select onChange={e => setSelectedMonth(e.target.value)}>
+                    <select onChange={e => setMonth(e.target.value)}>
                         {months.map(month =>
                             <option key={month.value} value={month.value}>{month.name}</option>
                         )}
                     </select>
 
                     Selected month: {selectedMonth}
+                </div>
+
+                <div>
+                    <p>Sales</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Package</th>
+                                <th>Sales</th>
+                                <th>Gross</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {sales && sales.map(sale =>
+                                <tr key={sale.packageName}>
+                                    <td>{sale.packageName}</td>
+                                    <td>{sale.sales}</td>
+                                    <td>{sale.gross}</td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
         );

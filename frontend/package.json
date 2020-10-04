@@ -15,7 +15,8 @@
         "react-hook-form": "^6.9.0",
         "react-scripts": "3.4.3",
         "superagent": "^6.1.0",
-        "typescript": "^3.7.5"
+        "typescript": "^3.7.5",
+        "unity-publisher-api": "0.1.0"
     },
     "scripts": {
         "start": "set PORT=3333 && react-scripts start",

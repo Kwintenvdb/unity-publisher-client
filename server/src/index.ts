@@ -15,14 +15,9 @@ const router = new Router({
 const api = new UnityPublisherApi();
 
 router.post('/authenticate', async ctx => {
-    // console.log(ctx);
     const { email, password } = ctx.request.body;
     await api.authenticate(email, password);
     ctx.body = await api.getMonthsData();
-});
-
-router.get('/', async ctx => {
-    ctx.body = 'test';
 });
 
 app.use(router.routes());

@@ -56,6 +56,14 @@ function Overview() {
             });
     };
 
+    const getAllSales = () => {
+        return superagent.get('/api/sales')
+            .then(res => {
+                console.log(res.body);
+                setSales(res.body);
+            });
+    };
+
     if (!authenticated) {
         return (
             <div>
@@ -71,6 +79,7 @@ function Overview() {
         return (
             <div>
                 <button onClick={getMonths}>Get months</button>
+                <button onClick={getAllSales}>Get all sales</button>
 
                 <div>
                     <select onChange={e => setMonth(e.target.value)}>

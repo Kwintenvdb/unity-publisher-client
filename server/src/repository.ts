@@ -1,7 +1,8 @@
 import Database from 'better-sqlite3';
 import { PackageData } from 'unity-publisher-api/dist/api/models/packageData';
-import { SalesData } from 'unity-publisher-api/dist/api/models/salesData';
+// import { SalesData } from 'unity-publisher-api/dist/api/models/salesData';
 import { SalesByMonth } from './salesByMonth';
+import { SalesDto } from '@shared/SalesDto';
 
 export class Repository {
     private readonly db = new Database('storage.db', { verbose: console.log });
@@ -47,7 +48,7 @@ export class Repository {
         });
     }
 
-    public getSales(): SalesByMonth[] {
+    public getSales(): SalesDto[] {
         const stmt = this.db.prepare('SELECT * FROM sales');
         return stmt.all();
     }

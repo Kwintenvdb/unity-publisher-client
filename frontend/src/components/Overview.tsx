@@ -3,6 +3,7 @@ import superagent from 'superagent';
 import { useForm } from 'react-hook-form';
 import { MonthData } from 'unity-publisher-api/dist/api/models/monthData';
 import { SalesData } from 'unity-publisher-api/dist/api/models/salesData';
+import { SalesDto } from '../../../shared';
 
 interface FormData {
     email: string;
@@ -14,7 +15,7 @@ function Overview() {
     const [authenticated, setAuthenticated] = useState(false);
     const [months, setMonths] = useState<MonthData[]>([]);
     const [selectedMonth, setSelectedMonth] = useState<string>('');
-    const [sales, setSales] = useState<SalesData[]>();
+    const [sales, setSales] = useState<SalesDto[]>();
 
     useEffect(() => {
         superagent.get('/api/isAuthenticated')
@@ -103,9 +104,9 @@ function Overview() {
                         </thead>
                         <tbody>
                             {sales && sales.map(sale =>
-                                <tr key={sale.packageName}>
-                                    <td>{sale.packageName}</td>
-                                    <td>{sale.sales}</td>
+                                <tr key={sale.package}>
+                                    <td>{sale.package}</td>
+                                    <td>{sale.numSales}</td>
                                     <td>{sale.gross}</td>
                                 </tr>
                             )}

@@ -55,6 +55,7 @@ async function initializeSalesData() {
     const promises = months.map(month => fetchMonthSales(month));
     await Promise.all(promises);
     salesByMonth.sort((s1, s2) => s1.month.value.localeCompare(s2.month.value));
+    // TODO diff the changes
     repository.storeSales(salesByMonth);
 }
 

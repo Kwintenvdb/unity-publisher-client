@@ -40,16 +40,24 @@ export class Repository {
     }
 
     public storeSales(sales: SalesByMonth[]) {
-        sales.forEach(saleByMonth => {
-            saleByMonth.sales.forEach(sale => {
-                const stmt = this.db.prepare('INSERT OR REPLACE INTO sales (month, package, numSales, gross) VALUES (?, ?, ?, ?)');
-                stmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.gross);
+        const stmt = this.db.prepare('INSERT OR REPLACE INTO sales (month, package, numSales, gross) VALUES (?, ?, ?, ?)');
+        const insertAll = this.db.transaction(() => {
+            sales.forEach(saleByMonth => {
+                saleByMonth.sales.forEach(sale => {
+                    stmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.gross);
+                });
             });
         });
+        insertAll();
     }
 
     public getSales(): SalesDto[] {
         const stmt = this.db.prepare('SELECT * FROM sales');
         return stmt.all();
+    }
+
+    public getSalesByMonth(month: number): SalesDto[] {
+        const stmt = this.db.prepare('SELECT * FROM sales WHERE month = ?');
+        return stmt.all(month);
     }
 }

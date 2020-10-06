@@ -25,7 +25,6 @@ function Overview() {
     }, []);
 
     const onSubmit = (data: FormData) => {
-        console.log(data);
         superagent.post('/api/authenticate')
             .send(data)
             .then(() => {
@@ -36,7 +35,6 @@ function Overview() {
     const getMonths: () => Promise<MonthData[]> = () => {
         return superagent.get('/api/months')
             .then(res => {
-                console.log(res.body);
                 const m = res.body;
                 setMonths(m);
                 setMonth(m[0].value);
@@ -52,7 +50,6 @@ function Overview() {
     const getSales = (month: string) => {
         return superagent.get('/api/sales/' + month)
             .then(res => {
-                console.log(res.body);
                 setSales(res.body);
             });
     };
@@ -60,7 +57,6 @@ function Overview() {
     const getAllSales = () => {
         return superagent.get('/api/sales')
             .then(res => {
-                console.log(res.body);
                 setSales(res.body);
             });
     };
@@ -103,8 +99,8 @@ function Overview() {
                             </tr>
                         </thead>
                         <tbody>
-                            {sales && sales.map(sale =>
-                                <tr key={sale.package}>
+                            {sales && sales.map((sale, index) =>
+                                <tr key={index}>
                                     <td>{sale.package}</td>
                                     <td>{sale.numSales}</td>
                                     <td>{sale.gross}</td>

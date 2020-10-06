@@ -72,7 +72,7 @@ router.get('/sales/:month', async ctx => {
     console.log('getting sales');
     const { month } = ctx.params;
     console.log('getting sales', month);
-    ctx.body = await api.getSalesData(month);
+    ctx.body = repository.getSalesByMonth(month);
 });
 
 router.get('/sales', async ctx => {

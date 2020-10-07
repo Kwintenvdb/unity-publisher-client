@@ -5,6 +5,8 @@ import bodyParser from 'koa-bodyparser';
 import path from 'path';
 import { UnityPublisherApi } from 'unity-publisher-api';
 import { Repository } from './repository';
+import { MonthData } from 'unity-publisher-api/dist/api/models/monthData';
+import { SalesByMonth } from './salesByMonth';
 
 const app = new Koa();
 app.use(bodyParser());
@@ -27,10 +29,35 @@ router.get('/isAuthenticated', async ctx => {
 router.post('/authenticate', async ctx => {
     const { email, password } = ctx.request.body;
     await api.authenticate(email, password);
-    await initializePackageData();
+    await cacheData();
     isAuthenticated = true;
     ctx.status = 200;
 });
+
+async function cacheData() {
+    await Promise.all([
+        initializePackageData(),
+        initializeSalesData()
+    ]);
+}
+
+async function initializeSalesData() {
+    async function fetchMonthSales(month: MonthData) {
+        const sales = await api.getSalesData(month.value);
+        salesByMonth.push({
+            month: month,
+            sales: sales
+        });
+    }
+
+    const months = await api.getMonthsData();
+    const salesByMonth: SalesByMonth[] = [];
+    const promises = months.map(month => fetchMonthSales(month));
+    await Promise.all(promises);
+    salesByMonth.sort((s1, s2) => s1.month.value.localeCompare(s2.month.value));
+    // TODO diff the changes
+    repository.storeSales(salesByMonth);
+}
 
 async function initializePackageData() {
     const packages = await api.getPackagesData();
@@ -46,7 +73,17 @@ router.get('/sales/:month', async ctx => {
     console.log('getting sales');
     const { month } = ctx.params;
     console.log('getting sales', month);
-    ctx.body = await api.getSalesData(month);
+    ctx.body = repository.getSalesByMonth(month);
+});
+
+router.get('/sales', async ctx => {
+    console.log('getting all sales');
+    ctx.body = repository.getSales();
+});
+
+router.get('/packages', async ctx => {
+    console.log('getting packages');
+    ctx.body = repository.getPackages();
 });
 
 app.use(router.routes());

@@ -1,5 +1,8 @@
 import Database from 'better-sqlite3';
 import { PackageData } from 'unity-publisher-api/dist/api/models/packageData';
+// import { SalesData } from 'unity-publisher-api/dist/api/models/salesData';
+import { SalesByMonth } from './salesByMonth';
+import { SalesDto } from '@shared/SalesDto';
 
 export class Repository {
     private readonly db = new Database('storage.db', { verbose: console.log });
@@ -13,6 +16,15 @@ export class Repository {
                 url TEXT NOT NULL
             );
         `);
+
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS sales (
+                month INTEGER NOT NULL,
+                package TEXT NOT NULL,
+                numSales INTEGER NOT NULL,
+                gross TEXT NOT NULL
+            );
+        `);
     }
 
     public storePackages(packages: PackageData[]) {
@@ -22,9 +34,30 @@ export class Repository {
         });
     }
 
-    public getPackages() {
+    public getPackages(): PackageData[] {
         const statement = this.db.prepare('SELECT * FROM packages');
-        const packages = statement.all();
-        console.log(packages);
+        return statement.all();
+    }
+
+    public storeSales(sales: SalesByMonth[]) {
+        const stmt = this.db.prepare('INSERT OR REPLACE INTO sales (month, package, numSales, gross) VALUES (?, ?, ?, ?)');
+        const insertAll = this.db.transaction(() => {
+            sales.forEach(saleByMonth => {
+                saleByMonth.sales.forEach(sale => {
+                    stmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.gross);
+                });
+            });
+        });
+        insertAll();
+    }
+
+    public getSales(): SalesDto[] {
+        const stmt = this.db.prepare('SELECT * FROM sales');
+        return stmt.all();
+    }
+
+    public getSalesByMonth(month: number): SalesDto[] {
+        const stmt = this.db.prepare('SELECT * FROM sales WHERE month = ?');
+        return stmt.all(month);
     }
 }

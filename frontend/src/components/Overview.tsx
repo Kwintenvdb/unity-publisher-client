@@ -3,6 +3,7 @@ import superagent from 'superagent';
 import { useForm } from 'react-hook-form';
 import { MonthData } from 'unity-publisher-api/dist/api/models/monthData';
 import { SalesData } from 'unity-publisher-api/dist/api/models/salesData';
+import { SalesDto } from '../../../shared';
 
 interface FormData {
     email: string;
@@ -14,7 +15,7 @@ function Overview() {
     const [authenticated, setAuthenticated] = useState(false);
     const [months, setMonths] = useState<MonthData[]>([]);
     const [selectedMonth, setSelectedMonth] = useState<string>('');
-    const [sales, setSales] = useState<SalesData[]>();
+    const [sales, setSales] = useState<SalesDto[]>();
 
     useEffect(() => {
         superagent.get('/api/isAuthenticated')
@@ -24,7 +25,6 @@ function Overview() {
     }, []);
 
     const onSubmit = (data: FormData) => {
-        console.log(data);
         superagent.post('/api/authenticate')
             .send(data)
             .then(() => {
@@ -35,7 +35,6 @@ function Overview() {
     const getMonths: () => Promise<MonthData[]> = () => {
         return superagent.get('/api/months')
             .then(res => {
-                console.log(res.body);
                 const m = res.body;
                 setMonths(m);
                 setMonth(m[0].value);
@@ -51,7 +50,13 @@ function Overview() {
     const getSales = (month: string) => {
         return superagent.get('/api/sales/' + month)
             .then(res => {
-                console.log(res.body);
+                setSales(res.body);
+            });
+    };
+
+    const getAllSales = () => {
+        return superagent.get('/api/sales')
+            .then(res => {
                 setSales(res.body);
             });
     };
@@ -71,6 +76,7 @@ function Overview() {
         return (
             <div>
                 <button onClick={getMonths}>Get months</button>
+                <button onClick={getAllSales}>Get all sales</button>
 
                 <div>
                     <select onChange={e => setMonth(e.target.value)}>
@@ -93,10 +99,10 @@ function Overview() {
                             </tr>
                         </thead>
                         <tbody>
-                            {sales && sales.map(sale =>
-                                <tr key={sale.packageName}>
-                                    <td>{sale.packageName}</td>
-                                    <td>{sale.sales}</td>
+                            {sales && sales.map((sale, index) =>
+                                <tr key={index}>
+                                    <td>{sale.package}</td>
+                                    <td>{sale.numSales}</td>
                                     <td>{sale.gross}</td>
                                 </tr>
                             )}

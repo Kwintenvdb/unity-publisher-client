@@ -117,7 +117,7 @@ function Overview() {
                         <tbody>
                             {sales && sales.map((sale, index) =>
                                 <tr key={index}>
-                                    <td>{sale.package}</td>
+                                    <td><a href={sale.packageUrl}>{sale.package}</a></td>
                                     <td>{sale.numSales}</td>
                                     <td>{sale.gross}</td>
                                 </tr>

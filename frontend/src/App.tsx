@@ -1,7 +1,7 @@
 import React from 'react';
 import Overview from './components/Overview';
-import './styles/main.scss';
 import './styles/tailwind.css';
+import './styles/main.scss';
 
 function App() {
     return (

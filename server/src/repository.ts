@@ -29,13 +29,18 @@ export class Repository {
     public storePackages(packages: PackageData[]) {
         packages.forEach(pkg => {
             const statement = this.db.prepare('INSERT OR REPLACE INTO packages (id, name, url) VALUES (?, ?, ?)');
-            statement.run(pkg.id, pkg.name, pkg.short_url);
+            statement.run(pkg.id, pkg.name, pkg.url);
         });
     }
 
     public getPackages(): PackageData[] {
         const statement = this.db.prepare('SELECT * FROM packages');
         return statement.all();
+    }
+
+    public getPackageByName(name: string): PackageData {
+        const stmt = this.db.prepare('SELECT * FROM packages where name = ?');
+        return stmt.get(name);
     }
 
     public storeSales(sales: SalesByMonth[]) {

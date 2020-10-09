@@ -20,11 +20,8 @@
         "unity-publisher-api": "0.1.0"
     },
     "scripts": {
-        "start": "set PORT=3333 && tsc -b && react-scripts start",
-        "prestart": "npm run build:tailwind",
-        "build": "react-scripts build",
-        "build:tailwind": "npx tailwind build src/styles/tailwind.css -o src/styles/tailwind.output.css -c tailwind.config.js",
-        "prebuild": "cross-env NODE_ENV=production npm run build:tailwind",
+        "start": "set PORT=3333 && tsc -b && craco start",
+        "build": "craco build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
@@ -45,9 +42,12 @@
         ]
     },
     "devDependencies": {
+        "@craco/craco": "^5.7.0",
+        "@tailwindcss/custom-forms": "^0.2.1",
         "@types/superagent": "^4.1.10",
         "cross-env": "^7.0.2",
         "module-alias": "^2.2.2",
-        "node-sass": "^4.14.1"
+        "node-sass": "^4.14.1",
+        "postcss-extend": "^1.0.5"
     }
 }

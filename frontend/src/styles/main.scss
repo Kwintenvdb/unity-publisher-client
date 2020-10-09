@@ -1,2 +1,17 @@
-@import './tailwind.output.css';
 
+table {
+    border-collapse: collapse;
+
+    td, th {
+        // border: 1px solid red;
+        @apply border-gray-400 border p-2;
+    }
+
+    th {
+        @apply bg-gray-100 font-semibold;
+    }
+
+    tr:hover {
+        @apply bg-gray-100;
+    }
+}

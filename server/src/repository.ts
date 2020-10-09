@@ -1,7 +1,7 @@
 import Database from 'better-sqlite3';
-import { PackageData } from 'unity-publisher-api/dist/api/models/packageData';
-import { SalesByMonth } from './salesByMonth';
+import { SalesByMonth } from './api/salesByMonth';
 import { SalesDto } from '@shared/SalesDto';
+import { PackageData } from 'unity-publisher-api';
 
 export class Repository {
     private readonly db = new Database('storage.db', { verbose: console.log });

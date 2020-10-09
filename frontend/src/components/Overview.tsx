@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { MonthData } from 'unity-publisher-api/dist/api/models/monthData';
 import { SalesData } from 'unity-publisher-api/dist/api/models/salesData';
 import { SalesDto } from '../../../shared';
+import { Card } from './common/Card';
 
 interface FormData {
     email: string;
@@ -71,7 +72,7 @@ function Overview() {
         return salesTotalGross() * 0.7;
     }
 
-    function formatRevenue(revenue: number): string {
+    function formatCurrency(revenue: number): string {
         const format = new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' });
         return format.format(revenue);
     }
@@ -93,38 +94,58 @@ function Overview() {
                 <button onClick={getMonths} className="form-input">Get months</button>
                 <button onClick={getAllSales}>Get all sales</button>
 
-                <div>
-                    <select onChange={e => setMonth(e.target.value)}>
-                        {months.map(month =>
-                            <option key={month.value} value={month.value}>{month.name}</option>
-                        )}
-                    </select>
-
-                    Selected month: {selectedMonth}
+                <div className="mt-4 mb-4">
+                    <h2 className="font-semibold">
+                        <span className="mr-1">Asset sales for </span>
+                        <span>
+                            <select onChange={e => setMonth(e.target.value)}>
+                                {months.map(month =>
+                                    <option key={month.value} value={month.value}>{month.name}</option>
+                                )}
+                            </select>
+                        </span>
+                    </h2>
                 </div>
 
                 <div>
-                    <h2>Sales total gross: {formatRevenue(salesTotalGross())}</h2>
-                    <h2>Sales total net: {formatRevenue(salesTotalNet())}</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Package</th>
-                                <th>Sales</th>
-                                <th>Gross</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {sales && sales.map((sale, index) =>
-                                <tr key={index}>
-                                    <td><a href={sale.packageUrl}>{sale.package}</a></td>
-                                    <td>{sale.numSales}</td>
-                                    <td>{sale.gross}</td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                    <div className="w-1/2 mb-4">
+                        <Card>
+                            <h2 className="text-gray-700 mb-2">Revenue</h2>
+                            <div className="flex">
+                                <div className="w-1/2">
+                                    <h1 className="font-bold">{formatCurrency(salesTotalGross())}</h1>
+                                    <p>gross</p>
+                                </div>
+                                <div className="w-1/2">
+                                    <h1 className="font-bold">{formatCurrency(salesTotalNet())}</h1>
+                                    <p>net</p>
+                                </div>
+                            </div>
+                        </Card>
+                    </div>
 
+                    <div className="w-1/2">
+                        <Card>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Package</th>
+                                        <th>Sales</th>
+                                        <th>Gross</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {sales && sales.map((sale, index) =>
+                                        <tr key={index}>
+                                            <td><a href={sale.packageUrl}>{sale.package}</a></td>
+                                            <td>{sale.numSales}</td>
+                                            <td>{formatCurrency(sale.gross)}</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </Card>
+                    </div>
                 </div>
             </div>
         );

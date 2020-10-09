@@ -1,7 +1,7 @@
 export interface SalesDto {
     month: string;
     package: string;
-    price: string;
+    price: number;
     numSales: number;
-    gross: string;
+    gross: number;
 }

@@ -61,6 +61,21 @@ function Overview() {
             });
     };
 
+    function salesTotalGross(): number {
+        if (sales)
+            return sales.reduce((sum: number, value: SalesDto) => sum + value.gross, 0);
+        else return 0;
+    };
+
+    function salesTotalNet(): number {
+        return salesTotalGross() * 0.7;
+    }
+
+    function formatRevenue(revenue: number): string {
+        const format = new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' });
+        return format.format(revenue);
+    }
+
     if (!authenticated) {
         return (
             <div>
@@ -89,7 +104,8 @@ function Overview() {
                 </div>
 
                 <div>
-                    <p>Sales</p>
+                    <h2>Sales total gross: {formatRevenue(salesTotalGross())}</h2>
+                    <h2>Sales total net: {formatRevenue(salesTotalNet())}</h2>
                     <table>
                         <thead>
                             <tr>

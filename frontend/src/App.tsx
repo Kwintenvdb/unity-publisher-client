@@ -1,12 +1,11 @@
 import React from 'react';
 import Overview from './components/Overview';
+import './styles/main.scss';
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <Overview></Overview>
-            </header>
+        <div className="container">
+            <Overview></Overview>
         </div>
     );
 }

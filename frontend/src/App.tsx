@@ -1,12 +1,14 @@
 import React from 'react';
 import Overview from './components/Overview';
+import './styles/main.scss';
+import './styles/tailwind.css';
 
 function App() {
     return (
-        <div className="App">
-            <header className="App-header">
-                <Overview></Overview>
-            </header>
+        <div className="container">
+            <h1>Unity Publisher Client</h1>
+
+            <Overview></Overview>
         </div>
     );
 }

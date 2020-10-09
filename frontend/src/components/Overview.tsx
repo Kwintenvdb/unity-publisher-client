@@ -75,7 +75,7 @@ function Overview() {
     } else {
         return (
             <div>
-                <button onClick={getMonths}>Get months</button>
+                <button onClick={getMonths} className="form-input">Get months</button>
                 <button onClick={getAllSales}>Get all sales</button>
 
                 <div>

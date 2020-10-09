@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    h1 {
+        @apply text-2xl;
+    }
+    h2 {
+        @apply text-xl;
+    }
+}
+
+input[type=text] {
+    @extend .form-input;
+}
+select {
+    @extend .form-select;
+}
+button {
+    @extend .form-input;
+}
+button:hover {
+    @apply bg-gray-100;
+}

@@ -15,12 +15,13 @@
         "react-hook-form": "^6.9.0",
         "react-scripts": "3.4.3",
         "superagent": "^6.1.0",
+        "tailwindcss": "^1.8.12",
         "typescript": "^3.7.5",
         "unity-publisher-api": "0.1.0"
     },
     "scripts": {
-        "start": "set PORT=3333 && tsc -b && react-scripts start",
-        "build": "react-scripts build",
+        "start": "set PORT=3333 && tsc -b && craco start",
+        "build": "craco build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },
@@ -41,7 +42,12 @@
         ]
     },
     "devDependencies": {
+        "@craco/craco": "^5.7.0",
+        "@tailwindcss/custom-forms": "^0.2.1",
         "@types/superagent": "^4.1.10",
-        "module-alias": "^2.2.2"
+        "cross-env": "^7.0.2",
+        "module-alias": "^2.2.2",
+        "node-sass": "^4.14.1",
+        "postcss-extend": "^1.0.5"
     }
 }

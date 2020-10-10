@@ -77,6 +77,18 @@ function Overview() {
         return format.format(revenue);
     }
 
+    function totalNumSales(): number {
+        if (sales)
+            return sales?.reduce((num: number, value: SalesDto) => num + value.numSales, 0);
+        else return 0;
+    }
+
+    useEffect(() => {
+        if (authenticated) {
+            getMonths();
+        }
+    }, [authenticated]);
+
     if (!authenticated) {
         return (
             <div>
@@ -91,62 +103,79 @@ function Overview() {
     } else {
         return (
             <div>
-                <button onClick={getMonths} className="form-input">Get months</button>
                 <button onClick={getAllSales}>Get all sales</button>
 
-                <div className="mt-4 mb-4">
-                    <h2 className="font-semibold">
-                        <span className="mr-1">Asset sales for </span>
-                        <span>
-                            <select onChange={e => setMonth(e.target.value)}>
-                                {months.map(month =>
-                                    <option key={month.value} value={month.value}>{month.name}</option>
-                                )}
-                            </select>
-                        </span>
-                    </h2>
-                </div>
+                <div className="flex space-x-4">
+                    <div className="flex-1">
+                        <div className="mt-4 mb-4">
+                            <h2 className="font-semibold">
+                                <span className="mr-1">Asset sales for </span>
+                                <span>
+                                    <select onChange={e => setMonth(e.target.value)} className="font-semibold">
+                                        {months.map(month =>
+                                            <option key={month.value} value={month.value}>{month.name}</option>
+                                        )}
+                                    </select>
+                                </span>
+                            </h2>
+                        </div>
 
-                <div>
-                    <div className="w-1/2 mb-4">
-                        <Card>
-                            <h2 className="text-gray-700 mb-2">Revenue</h2>
-                            <div className="flex">
-                                <div className="w-1/2">
-                                    <h1 className="font-bold">{formatCurrency(salesTotalGross())}</h1>
-                                    <p>gross</p>
+                        <div className="mb-4">
+                            <Card accent>
+                                <div className="text-white">
+                                    <h2 className="mb-2">Revenue</h2>
+                                    <div className="flex">
+                                        <div className="w-1/2">
+                                            <h1 className="text-3xl font-bold">
+                                                {formatCurrency(salesTotalGross())}
+                                                <span className="text-lg font-normal ml-1"> gross</span>
+                                            </h1>
+                                        </div>
+                                        <div className="w-1/2">
+                                            <h1 className="text-3xl font-bold">
+                                                {formatCurrency(salesTotalNet())}
+                                                <span className="text-lg font-normal ml-1"> net</span>
+                                            </h1>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="w-1/2">
-                                    <h1 className="font-bold">{formatCurrency(salesTotalNet())}</h1>
-                                    <p>net</p>
-                                </div>
-                            </div>
-                        </Card>
-                    </div>
+                            </Card>
+                        </div>
 
-                    <div className="w-1/2">
-                        <Card>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Package</th>
-                                        <th>Sales</th>
-                                        <th>Gross</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {sales && sales.map((sale, index) =>
-                                        <tr key={index}>
-                                            <td><a href={sale.packageUrl}>{sale.package}</a></td>
-                                            <td>{sale.numSales}</td>
-                                            <td>{formatCurrency(sale.gross)}</td>
+                        <div>
+                            <Card>
+                                <h2 className="mb-2 text-gray-600">Sales</h2>
+                                <table className="mb-2">
+                                    <thead>
+                                        <tr>
+                                            <th>Package</th>
+                                            <th>Sales</th>
+                                            <th>Price</th>
+                                            <th>Gross</th>
                                         </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </Card>
+                                    </thead>
+                                    <tbody>
+                                        {sales && sales.map((sale, index) =>
+                                            <tr key={index}>
+                                                <td><a href={sale.packageUrl}>{sale.package}</a></td>
+                                                <td>{sale.numSales}</td>
+                                                <td>{formatCurrency(sale.price)}</td>
+                                                <td>{formatCurrency(sale.gross)}</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+
+                                <h3 className="font-semibold">{totalNumSales()} total sales</h3>
+                            </Card>
+                        </div>
+                    </div>
+
+                    <div className="flex-1">
+                        <h2 className="font-semibold">Total sales</h2>
                     </div>
                 </div>
+
             </div>
         );
     }

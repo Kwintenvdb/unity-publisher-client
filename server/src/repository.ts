@@ -21,7 +21,9 @@ export class Repository {
                 month INTEGER NOT NULL,
                 package TEXT NOT NULL,
                 numSales INTEGER NOT NULL,
-                gross REAL NOT NULL
+                price REAL NOT NULL,
+                gross REAL NOT NULL,
+                PRIMARY KEY (month, package, price)
             );
         `);
     }
@@ -44,11 +46,11 @@ export class Repository {
     }
 
     public storeSales(sales: SalesByMonth[]) {
-        const stmt = this.db.prepare('INSERT OR REPLACE INTO sales (month, package, numSales, gross) VALUES (?, ?, ?, ?)');
+        const stmt = this.db.prepare('INSERT OR REPLACE INTO sales (month, package, numSales, price, gross) VALUES (?, ?, ?, ?, ?)');
         const insertAll = this.db.transaction(() => {
             sales.forEach(saleByMonth => {
                 saleByMonth.sales.forEach(sale => {
-                    stmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.gross);
+                    stmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.price, sale.gross);
                 });
             });
         });

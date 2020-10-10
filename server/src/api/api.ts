@@ -42,7 +42,7 @@ async function initializeSalesData() {
     const salesByMonth: SalesByMonth[] = [];
     const promises = months.map(month => fetchMonthSales(month));
     await Promise.all(promises);
-    salesByMonth.sort((s1, s2) => s1.month.value.localeCompare(s2.month.value));
+    // salesByMonth.sort((s1, s2) => s1.month.value.localeCompare(s2.month.value));
     // TODO diff the changes
     repository.storeSales(salesByMonth);
 }
@@ -67,6 +67,7 @@ router.get('/sales/:month', async ctx => {
         console.log(pkg.url);
         sbm.packageUrl = pkg.url;
     });
+    console.log(salesByMonth);
     ctx.body = salesByMonth;
 });
 

@@ -5,10 +5,16 @@ import './styles/main.scss';
 
 function App() {
     return (
-        <div className="container">
-            <h1>Unity Publisher Client</h1>
+        <div>
+            <div className="header">
+                <div className="container">
+                    <h1>Unity Publisher Client</h1>
+                </div>
+            </div>
+            <div className="container">
 
-            <Overview></Overview>
+                <Overview></Overview>
+            </div>
         </div>
     );
 }

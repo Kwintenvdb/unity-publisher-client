@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import superagent from 'superagent';
 import { useForm } from 'react-hook-form';
-import { MonthData } from 'unity-publisher-api/dist/api/models/monthData';
-import { SalesData } from 'unity-publisher-api/dist/api/models/salesData';
 import { SalesDto } from '../../../shared';
 import { Card } from './common/Card';
+import { MonthData } from 'unity-publisher-api';
+import SalesChart from './SalesChart';
+import { formatCurrency } from '../utils/formatCurrency';
 
 interface FormData {
     email: string;
@@ -70,11 +71,6 @@ function Overview() {
 
     function salesTotalNet(): number {
         return salesTotalGross() * 0.7;
-    }
-
-    function formatCurrency(revenue: number): string {
-        const format = new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' });
-        return format.format(revenue);
     }
 
     function totalNumSales(): number {
@@ -173,6 +169,7 @@ function Overview() {
 
                     <div className="flex-1">
                         <h2 className="font-semibold">Total sales</h2>
+                        <SalesChart></SalesChart>
                     </div>
                 </div>
 

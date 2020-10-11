@@ -18,27 +18,23 @@ export const MonthlySalesChart: FunctionComponent<MonthlySalesChartProps> = ({ s
 
         if (canvasCtx) {
             const packages = getDistinctElements(sales.map(s => s.package));
-            const grossByPackage = packages.map(pkg => {
+            const numSalesByPackage = packages.map(pkg => {
                 const salesByPackage = sales.filter(s => s.package === pkg);
-                return salesByPackage.reduce((sum, value) => sum + value.gross, 0);
+                return salesByPackage.reduce((sum, value) => sum + value.numSales, 0);
             });
-
-            console.log('creating chart');
-            console.log(packages);
-            console.log(grossByPackage);
 
             chart = new Chart(canvasCtx, {
                 type: 'doughnut',
                 data: {
                     labels: packages,
                     datasets: [{
-                        data: grossByPackage
+                        data: numSalesByPackage
                     }]
                 },
                 options: {
                     plugins: {
                         colorschemes: {
-                            scheme: 'office.Metro6'
+                            scheme: 'tableau.Tableau10'
                         }
                     }
                 }

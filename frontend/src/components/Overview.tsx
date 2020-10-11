@@ -6,6 +6,7 @@ import { Card } from './common/Card';
 import { MonthData } from 'unity-publisher-api';
 import SalesChart from './SalesChart';
 import { formatCurrency } from '../utils/formatCurrency';
+import { MonthlySalesChart } from './MonthlySalesChart';
 
 interface FormData {
     email: string;
@@ -101,21 +102,21 @@ function Overview() {
             <div>
                 <button onClick={getAllSales}>Get all sales</button>
 
+                <div className="mt-4 mb-4">
+                    <h2 className="font-semibold">
+                        <span className="mr-1">Asset sales for </span>
+                        <span>
+                            <select onChange={e => setMonth(e.target.value)} className="font-semibold">
+                                {months.map(month =>
+                                    <option key={month.value} value={month.value}>{month.name}</option>
+                                )}
+                            </select>
+                        </span>
+                    </h2>
+                </div>
+
                 <div className="flex space-x-4">
                     <div className="flex-1">
-                        <div className="mt-4 mb-4">
-                            <h2 className="font-semibold">
-                                <span className="mr-1">Asset sales for </span>
-                                <span>
-                                    <select onChange={e => setMonth(e.target.value)} className="font-semibold">
-                                        {months.map(month =>
-                                            <option key={month.value} value={month.value}>{month.name}</option>
-                                        )}
-                                    </select>
-                                </span>
-                            </h2>
-                        </div>
-
                         <div className="mb-4">
                             <Card accent>
                                 <div className="text-white">
@@ -168,8 +169,11 @@ function Overview() {
                     </div>
 
                     <div className="flex-1">
-                        <h2 className="font-semibold">Total sales</h2>
-                        <SalesChart></SalesChart>
+                        <Card>
+                            <h2 className="mb-2 text-gray-600">Sales ratio</h2>
+                            {sales && <MonthlySalesChart sales={sales}></MonthlySalesChart>}
+                        </Card>
+                        {/* <SalesChart></SalesChart> */}
                     </div>
                 </div>
 

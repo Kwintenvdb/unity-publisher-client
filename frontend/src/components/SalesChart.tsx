@@ -9,7 +9,6 @@ export default function SalesChart() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [sales, setSales] = useState<SalesDto[]>();
 
-    const chartCtx = canvasRef.current;
 
     const getAllSales = () => {
         return superagent.get('/api/sales')
@@ -23,6 +22,8 @@ export default function SalesChart() {
     }, []);
 
     useEffect(() => {
+        const chartCtx = canvasRef.current;
+
         if (chartCtx && sales && sales.length > 0) {
             const labels = Array.from(new Set(sales.map(s => s.month))).sort();
 

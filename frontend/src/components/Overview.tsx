@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import superagent from 'superagent';
 import { useForm } from 'react-hook-form';
-import { MonthData } from 'unity-publisher-api/dist/api/models/monthData';
-import { SalesData } from 'unity-publisher-api/dist/api/models/salesData';
 import { SalesDto } from '../../../shared';
 import { Card } from './common/Card';
+import { MonthData } from 'unity-publisher-api';
+import SalesChart from './SalesChart';
+import { formatCurrency } from '../utils/formatCurrency';
+import { MonthlySalesChart } from './MonthlySalesChart';
 
 interface FormData {
     email: string;
@@ -72,11 +74,6 @@ function Overview() {
         return salesTotalGross() * 0.7;
     }
 
-    function formatCurrency(revenue: number): string {
-        const format = new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' });
-        return format.format(revenue);
-    }
-
     function totalNumSales(): number {
         if (sales)
             return sales?.reduce((num: number, value: SalesDto) => num + value.numSales, 0);
@@ -105,21 +102,21 @@ function Overview() {
             <div>
                 <button onClick={getAllSales}>Get all sales</button>
 
+                <div className="mt-4 mb-4">
+                    <h2 className="font-semibold">
+                        <span className="mr-1">Asset sales for </span>
+                        <span>
+                            <select onChange={e => setMonth(e.target.value)} className="font-semibold">
+                                {months.map(month =>
+                                    <option key={month.value} value={month.value}>{month.name}</option>
+                                )}
+                            </select>
+                        </span>
+                    </h2>
+                </div>
+
                 <div className="flex space-x-4">
                     <div className="flex-1">
-                        <div className="mt-4 mb-4">
-                            <h2 className="font-semibold">
-                                <span className="mr-1">Asset sales for </span>
-                                <span>
-                                    <select onChange={e => setMonth(e.target.value)} className="font-semibold">
-                                        {months.map(month =>
-                                            <option key={month.value} value={month.value}>{month.name}</option>
-                                        )}
-                                    </select>
-                                </span>
-                            </h2>
-                        </div>
-
                         <div className="mb-4">
                             <Card accent>
                                 <div className="text-white">
@@ -172,7 +169,11 @@ function Overview() {
                     </div>
 
                     <div className="flex-1">
-                        <h2 className="font-semibold">Total sales</h2>
+                        <Card>
+                            <h2 className="mb-2 text-gray-600">Sales ratio</h2>
+                            {sales && <MonthlySalesChart sales={sales}></MonthlySalesChart>}
+                        </Card>
+                        {/* <SalesChart></SalesChart> */}
                     </div>
                 </div>
 

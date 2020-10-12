@@ -56,13 +56,6 @@ function Overview() {
             });
     };
 
-    const getAllSales = () => {
-        return superagent.get('/api/sales')
-            .then(res => {
-                setSales(res.body);
-            });
-    };
-
     function salesTotalGross(): number {
         if (sales)
             return sales.reduce((sum: number, value: SalesDto) => sum + value.gross, 0);
@@ -99,8 +92,6 @@ function Overview() {
     } else {
         return (
             <div>
-                <button onClick={getAllSales}>Get all sales</button>
-
                 <div className="mt-4 mb-4">
                     <h2 className="font-semibold">
                         <span className="mr-1">Asset sales for </span>

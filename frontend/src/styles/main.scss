@@ -1,6 +1,11 @@
+html {
+    @apply h-full;
+}
+
 body {
     background-color: #f6f6f6;
     font-family: 'Lato', sans-serif;
+    @apply h-full;
 }
 
 .header {
@@ -54,5 +59,39 @@ a {
     
     &:hover {
         @apply text-pink-700;
+    }
+}
+
+.sidebar-item {
+    @apply block;
+    @apply w-full;
+    @apply rounded-lg;
+    @apply px-3;
+    @apply py-2;
+    @apply mb-2;
+    @apply no-underline;
+
+    @apply text-pink-200;
+    
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.1);
+        @apply text-white;
+
+        svg {
+            @apply text-pink-300;
+        }
+    }
+
+    &.active {
+        background-color: rgba(0, 0, 0, 0.15);
+        @apply text-white;
+
+        svg {
+            @apply text-pink-300;
+        }
+    }
+
+    svg {
+        @apply text-pink-400;
     }
 }

@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { SalesDto } from '../../../shared';
 import { Card } from './common/Card';
 import { MonthData } from 'unity-publisher-api';
-import SalesChart from './SalesChart';
 import { formatCurrency } from '../utils/formatCurrency';
 import { MonthlySalesChart } from './MonthlySalesChart';
 
@@ -18,7 +17,7 @@ function Overview() {
     const [authenticated, setAuthenticated] = useState(false);
     const [months, setMonths] = useState<MonthData[]>([]);
     const [selectedMonth, setSelectedMonth] = useState<string>('');
-    const [sales, setSales] = useState<SalesDto[]>();
+    const [sales, setSales] = useState<SalesDto[]>([]);
 
     useEffect(() => {
         superagent.get('/api/isAuthenticated')

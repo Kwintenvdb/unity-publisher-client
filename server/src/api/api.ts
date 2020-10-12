@@ -80,3 +80,8 @@ router.get('/packages', async ctx => {
     console.log('getting packages');
     ctx.body = repository.getPackages();
 });
+
+router.get('/reviews', async ctx => {
+    console.log('getting reviews');
+    ctx.body = await api.getReviewData();
+});

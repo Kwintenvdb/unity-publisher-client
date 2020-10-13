@@ -58,13 +58,10 @@ router.get('/months', async ctx => {
 });
 
 router.get('/sales/:month', async ctx => {
-    console.log('getting sales');
     const { month } = ctx.params;
-    console.log('getting sales', month);
     const salesByMonth = repository.getSalesByMonth(month);
     salesByMonth.forEach(sbm => {
         const pkg = repository.getPackageByName(sbm.package);
-        console.log(pkg.url);
         sbm.packageUrl = pkg.url;
     });
     console.log(salesByMonth);

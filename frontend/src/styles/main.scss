@@ -55,10 +55,12 @@ table {
 }
 
 a {
-    @apply text-pink-600 underline;
+    // @apply text-pink-600 underline;
+    @apply text-primary underline;
     
     &:hover {
-        @apply text-pink-700;
+        // @apply text-pink-700;
+        @apply text-primary-dark;
     }
 }
 
@@ -71,14 +73,14 @@ a {
     @apply mb-2;
     @apply no-underline;
 
-    @apply text-pink-200;
+    @apply text-dark-soft;
     
     &:hover {
         background-color: rgba(0, 0, 0, 0.1);
         @apply text-white;
 
         svg {
-            @apply text-pink-300;
+            @apply text-dark-soft;
         }
     }
 
@@ -87,11 +89,11 @@ a {
         @apply text-white;
 
         svg {
-            @apply text-pink-300;
+            @apply text-dark-soft;
         }
     }
 
     svg {
-        @apply text-pink-400;
+        @apply text-dark-soft;
     }
 }

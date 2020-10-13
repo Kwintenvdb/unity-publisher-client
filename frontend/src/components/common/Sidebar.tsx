@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 export function Sidebar() {
     return (
-        <div className="w-64 h-full bg-pink-600 p-4">
+        <div className="w-64 h-full bg-dark p-4">
             <h2 className="text-white font-semibold mb-6">
                 Unity Publisher Client
             </h2>

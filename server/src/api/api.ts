@@ -29,6 +29,13 @@ async function cacheData() {
     ]);
 }
 
+/**
+ * TODO:
+ * - Run this as a job every X minutes
+ * - Log the diff of all sales
+ *   - DO NOT do this the first time the script is run
+ * - Send email alerts when there are new sales
+ */
 async function initializeSalesData() {
     async function fetchMonthSales(month: MonthData) {
         const sales = await api.getSalesData(month.value);

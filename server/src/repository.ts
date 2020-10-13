@@ -46,7 +46,7 @@ export class Repository {
     }
 
     public storeSales(sales: SalesByMonth[]) {
-        const stmt = this.db.prepare('INSERT OR REPLACE INTO sales (month, package, numSales, price, gross) VALUES (?, ?, ?, ?, ?)');
+        const insertSaleStmt = this.db.prepare('INSERT OR REPLACE INTO sales (month, package, numSales, price, gross) VALUES (?, ?, ?, ?, ?)');
         const getSalesStmt = this.db.prepare(`
             SELECT numSales FROM sales
             WHERE month = ?
@@ -54,18 +54,18 @@ export class Repository {
             AND price = ?
         `);
 
-        sales.push({
-            month: {
-                value: '123',
-                name: 'My month name'
-            },
-            sales: [{
-                packageName: 'test package',
-                gross: 123,
-                sales: 14,
-                price: 12.3
-            }]
-        });
+        // sales.push({
+        //     month: {
+        //         value: '123',
+        //         name: 'My month name'
+        //     },
+        //     sales: [{
+        //         packageName: 'test package',
+        //         gross: 123,
+        //         sales: 14,
+        //         price: 12.3
+        //     }]
+        // });
 
         const insertAll = this.db.transaction(() => {
             sales.forEach(saleByMonth => {
@@ -75,9 +75,7 @@ export class Repository {
                     if (sale.sales > prevNumSales) {
                         const numNewSales = sale.sales - prevNumSales;
                         console.log('New sales for ' + sale.packageName + ', new sales: ' + numNewSales);
-                        const result = stmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.price, sale.gross);
-                        console.log('insert sales');
-                        console.log(result);
+                        insertSaleStmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.price, sale.gross);
                     }
                 });
             });

@@ -12,11 +12,14 @@
     "license": "ISC",
     "dependencies": {
         "@koa/router": "^9.4.0",
+        "@types/web-push": "^3.3.0",
         "better-sqlite3": "^7.1.1",
         "koa": "^2.13.0",
         "koa-bodyparser": "^4.3.0",
         "koa-static": "^5.0.0",
-        "unity-publisher-api": "0.1.0"
+        "nodemailer": "^6.4.13",
+        "unity-publisher-api": "0.1.0",
+        "web-push": "^3.4.4"
     },
     "devDependencies": {
         "@types/better-sqlite3": "^5.4.0",
@@ -24,6 +27,7 @@
         "@types/koa-bodyparser": "^4.3.0",
         "@types/koa-static": "^4.0.1",
         "@types/koa__router": "^8.0.3",
+        "@types/nodemailer": "^6.4.0",
         "ts-node-dev": "^1.0.0-pre.63",
         "typescript": "^4.0.3"
     }

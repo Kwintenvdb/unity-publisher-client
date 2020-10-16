@@ -7,7 +7,10 @@ module.exports = {
     },
     purge: {
         enabled: isProduction,
-        content: ['./src/**/*.html']
+        content: ['./src/**/*.html', './src/**/*.tsx', './src/styles/**/*.scss', './src/styles/**/*.css'],
+        options: {
+            whitelist: ['form-input', 'form-select']
+        }
     },
     theme: {
         container: {

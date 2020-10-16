@@ -2,8 +2,10 @@ import { MonthData, UnityPublisherApi } from 'unity-publisher-api';
 import { router } from './router';
 import { Repository } from '../repository';
 import { SalesByMonth } from './salesByMonth';
+import { NotificationService } from '../notification/notificationService';
 
 const repository = new Repository();
+const notificationService = new NotificationService();
 
 const api = new UnityPublisherApi();
 let isAuthenticated = false;
@@ -88,4 +90,14 @@ router.get('/packages', async ctx => {
 router.get('/reviews', async ctx => {
     console.log('getting reviews');
     ctx.body = await api.getReviewData();
+});
+
+router.post('/subscribeToNotifications', ctx => {
+    console.log('subscribing to notifications');
+    notificationService.subscribe(ctx.request.body);
+    ctx.status = 200;
+
+    setTimeout(() => {
+        notificationService.sendNotification('my notification 1234');
+    }, 3000);
 });

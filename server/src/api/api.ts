@@ -92,12 +92,17 @@ router.get('/reviews', async ctx => {
     ctx.body = await api.getReviewData();
 });
 
-router.post('/subscribeToNotifications', ctx => {
+router.post('/notifications/subscribe', ctx => {
     console.log('subscribing to notifications');
     notificationService.subscribe(ctx.request.body);
     ctx.status = 200;
 
-    setTimeout(() => {
+    setInterval(() => {
         notificationService.sendNotification('my notification 1234');
     }, 3000);
+});
+
+router.post('/notifications/unsubscribe', ctx => {
+    notificationService.unsubscribe();
+    ctx.status = 200;
 });

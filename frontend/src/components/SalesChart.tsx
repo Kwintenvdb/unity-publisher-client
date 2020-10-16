@@ -48,7 +48,7 @@ export default function SalesChart() {
                 });
             }
 
-            const chart = new Chart(chartCtx, {
+            new Chart(chartCtx, {
                 type: 'bar',
                 data: {
                     labels: labels,

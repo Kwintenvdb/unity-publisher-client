@@ -10,6 +10,7 @@ import './styles/tailwind.css';
 import './styles/main.scss';
 import { Reviews } from './components/pages/Reviews';
 import { Sidebar } from './components/common/Sidebar';
+import { Settings } from './components/pages/Settings';
 
 function App() {
     return (
@@ -45,6 +46,10 @@ function App() {
                         <Switch>
                             <Route path="/reviews">
                                 <Reviews></Reviews>
+                            </Route>
+
+                            <Route path="/settings">
+                                <Settings></Settings>
                             </Route>
 
                             <Route path="/" exact strict>

@@ -17,6 +17,10 @@ export class NotificationService {
         this.subscription = subscription;
     }
 
+    unsubscribe() {
+        this.subscription = null;
+    }
+
     sendNotification(payload: string) {
         if (this.subscription) {
             console.log('sending push notification to frontend');

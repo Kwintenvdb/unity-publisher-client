@@ -27,16 +27,13 @@ export function Reviews() {
             <h2 className="font-semibold mb-4">Reviews</h2>
 
             <div className="w-1/3 mb-4">
-                <Card accent>
-                    <div className="text-white">
-                        <h2 className="mb-2">Average rating</h2>
-                        <h1>
-                            <span className="mr-4">
-                                {averageRating().toPrecision(2)}
-                            </span>
-                            {'⭐'.repeat(Math.round(averageRating()))}
-                        </h1>
-                    </div>
+                <Card title="Average Rating">
+                    <h1>
+                        <span className="mr-4">
+                            {averageRating().toPrecision(2)}
+                        </span>
+                        {'⭐'.repeat(Math.round(averageRating()))}
+                    </h1>
                 </Card>
             </div>
 

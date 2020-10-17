@@ -5,6 +5,10 @@ import {
     Route
 } from 'react-router-dom';
 
+import { Client as Styletron } from 'styletron-engine-atomic';
+import { Provider as StyletronProvider } from 'styletron-react';
+import { createLightTheme, LightTheme, BaseProvider, lightThemePrimitives } from 'baseui';
+
 import Overview from './components/Overview';
 import './styles/tailwind.css';
 import './styles/main.scss';
@@ -12,56 +16,57 @@ import { Reviews } from './components/pages/Reviews';
 import { Sidebar } from './components/common/Sidebar';
 import { Settings } from './components/pages/Settings';
 
+const engine = new Styletron();
+
+const theme = createLightTheme({}, {
+    colors: {
+        linkText: LightTheme.colors.accent,
+        linkVisited: LightTheme.colors.accent500,
+        linkHover: LightTheme.colors.accent600
+    }
+});
+
+console.log(theme);
+
+
 function App() {
     return (
-        <Router>
-            <div className="h-full">
-                {/* <div className="header">
-                    <div className="container">
-                        <div className="flex items-center">
-                            <h1 className="flex-1">Unity Publisher Client</h1>
-                            <a href="https://publisher.assetstore.unity3d.com/">Go to Unity Publisher Administration</a>
+        <StyletronProvider value={engine}>
+            {/* baseprovider div needs class h-full */}
+            <BaseProvider theme={theme} overrides={{
+                AppContainer: {
+                    style: {
+                        height: '100%'
+                    }
+                }
+            }}>
+                <Router>
+                    <div className="h-full">
+                        <div className="flex h-full">
+                            <div className="self-stretch">
+                                <Sidebar></Sidebar>
+                            </div>
+
+                            <div className="max-h-full w-full py-10 px-16 overflow-y-auto">
+                                <Switch>
+                                    <Route path="/reviews">
+                                        <Reviews></Reviews>
+                                    </Route>
+
+                                    <Route path="/settings">
+                                        <Settings></Settings>
+                                    </Route>
+
+                                    <Route path="/" exact strict>
+                                        <Overview></Overview>
+                                    </Route>
+                                </Switch>
+                            </div>
                         </div>
                     </div>
-                </div> */}
-                {/* <div>
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/">Home</Link>
-                            </li>
-                            <li>
-                                <Link to="/reviews">Reviews</Link>
-                            </li>
-                        </ul>
-                    </nav>
-                </div> */}
-
-                <div className="flex h-full">
-                    <div className="self-stretch">
-                        <Sidebar></Sidebar>
-                    </div>
-
-                    <div className="max-h-full w-full py-10 px-16 overflow-y-auto">
-                        <Switch>
-                            <Route path="/reviews">
-                                <Reviews></Reviews>
-                            </Route>
-
-                            <Route path="/settings">
-                                <Settings></Settings>
-                            </Route>
-
-                            <Route path="/" exact strict>
-                                <Overview></Overview>
-                            </Route>
-                        </Switch>
-                    </div>
-                </div>
-
-
-            </div>
-        </Router>
+                </Router>
+            </BaseProvider>
+        </StyletronProvider>
     );
 }
 

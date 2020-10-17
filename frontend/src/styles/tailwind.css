@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@layer base {
+/* @layer base {
     h1 {
         @apply text-2xl;
     }
@@ -11,9 +11,9 @@
     h3 {
         @apply text-lg;
     }
-}
+} */
 
-input {
+/* input {
     @extend .form-input;
 }
 
@@ -23,8 +23,8 @@ select {
 
 button {
     @extend .form-input;
-}
+} */
 
-button:hover {
+/* button:hover {
     @apply bg-gray-100;
-}
+} */

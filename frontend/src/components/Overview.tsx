@@ -6,6 +6,9 @@ import { Card } from './common/Card';
 import { MonthData } from 'unity-publisher-api';
 import { formatCurrency } from '../utils/formatCurrency';
 import { MonthlySalesChart } from './MonthlySalesChart';
+import { MonthlySalesTable } from './pages/overview/MonthlySalesTable';
+import { Select, Value } from 'baseui/select';
+import { H1, H2, H3, H4, H5, H6 } from 'baseui/typography';
 
 interface FormData {
     email: string;
@@ -16,7 +19,7 @@ function Overview() {
     const { register, handleSubmit } = useForm<FormData>();
     const [authenticated, setAuthenticated] = useState(false);
     const [months, setMonths] = useState<MonthData[]>([]);
-    const [selectedMonth, setSelectedMonth] = useState<string>('');
+    const [selectedMonth, setSelectedMonth] = useState<Value>([]);
     const [sales, setSales] = useState<SalesDto[]>([]);
 
     useEffect(() => {
@@ -38,15 +41,16 @@ function Overview() {
         return superagent.get('/api/months')
             .then(res => {
                 const m = res.body;
+                // TODO map to value options here already
                 setMonths(m);
-                setMonth(m[0].value);
+                // setMonth(m[0].value);
                 return res.body;
             });
     };
 
-    const setMonth = (month: string) => {
-        setSelectedMonth(month);
-        getSales(month);
+    const setMonth = (monthValue: Value) => {
+        setSelectedMonth(monthValue);
+        getSales(monthValue[0].id as string);
     }
 
     const getSales = (month: string) => {
@@ -94,73 +98,63 @@ function Overview() {
             <div>
                 <div className="mt-4 mb-4">
                     <h2 className="font-semibold">
-                        <span className="mr-1">Asset sales for </span>
-                        <span>
-                            <select onChange={e => setMonth(e.target.value)} className="font-semibold">
-                                {months.map(month =>
-                                    <option key={month.value} value={month.value}>{month.name}</option>
-                                )}
-                            </select>
-                        </span>
+                        <div className="flex items-baseline">
+                            <H5 className="mr-4">Asset sales for</H5>
+                            <div className="w-56">
+                                <Select
+                                    value={selectedMonth}
+                                    onChange={e => setMonth(e.value)}
+                                    options={months.map(m => ({ id: m.value, label: m.name }))}
+                                    maxDropdownHeight="300px"
+                                    clearable={false}
+                                    overrides={{
+                                        SingleValue: {
+                                            style: {
+                                                fontWeight: 500
+                                            }
+                                        }
+                                    }}
+                                />
+                            </div>
+
+                        </div>
+
                     </h2>
                 </div>
 
                 <div className="flex space-x-4">
                     <div className="flex-1">
                         <div className="mb-4">
-                            <Card accent>
-                                <div className="text-white">
-                                    <h2 className="mb-2">Revenue</h2>
-                                    <div className="flex">
-                                        <div className="w-1/2">
-                                            <h1 className="text-3xl font-bold">
-                                                {formatCurrency(salesTotalGross())}
-                                                <span className="text-lg font-normal ml-1"> gross</span>
-                                            </h1>
-                                        </div>
-                                        <div className="w-1/2">
-                                            <h1 className="text-3xl font-bold">
-                                                {formatCurrency(salesTotalNet())}
-                                                <span className="text-lg font-normal ml-1"> net</span>
-                                            </h1>
-                                        </div>
+                            <Card title="Revenue">
+                                <div className="flex">
+                                    <div className="w-1/2">
+                                        <h1 className="text-3xl font-bold">
+                                            {formatCurrency(salesTotalGross())}
+                                            <span className="text-lg font-normal ml-1"> gross</span>
+                                        </h1>
+                                    </div>
+                                    <div className="w-1/2">
+                                        <h1 className="text-3xl font-bold">
+                                            {formatCurrency(salesTotalNet())}
+                                            <span className="text-lg font-normal ml-1"> net</span>
+                                        </h1>
                                     </div>
                                 </div>
                             </Card>
                         </div>
 
                         <div>
-                            <Card>
-                                <h2 className="mb-2 text-gray-600">Sales</h2>
-                                <table className="mb-2">
-                                    <thead>
-                                        <tr>
-                                            <th>Package</th>
-                                            <th>Sales</th>
-                                            <th>Price</th>
-                                            <th>Gross</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {sales && sales.map((sale, index) =>
-                                            <tr key={index}>
-                                                <td><a href={sale.packageUrl}>{sale.package}</a></td>
-                                                <td>{sale.numSales}</td>
-                                                <td>{formatCurrency(sale.price)}</td>
-                                                <td>{formatCurrency(sale.gross)}</td>
-                                            </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-
+                            <Card title="Sales">
+                                <div className="mb-4">
+                                    <MonthlySalesTable sales={sales}></MonthlySalesTable>
+                                </div>
                                 <h3 className="font-semibold">{totalNumSales()} total sales</h3>
                             </Card>
                         </div>
                     </div>
 
                     <div className="flex-1">
-                        <Card>
-                            <h2 className="mb-2 text-gray-600">Sales ratio</h2>
+                        <Card title="Sales Ratio">
                             {sales && <MonthlySalesChart sales={sales}></MonthlySalesChart>}
                         </Card>
                         {/* <SalesChart></SalesChart> */}

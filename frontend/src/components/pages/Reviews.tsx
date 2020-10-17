@@ -18,6 +18,10 @@ export function Reviews() {
         return sum / reviews.length;
     }
 
+    function getReviewLink(review: ReviewData): string {
+        return `https://assetstore.unity.com/packages/slug/${review.packageId}/reviews?rid=${review.id}`;
+    }
+
     return (
         <div>
             <h2 className="font-semibold mb-4">Reviews</h2>
@@ -35,7 +39,6 @@ export function Reviews() {
                     </div>
                 </Card>
             </div>
-
 
             <Card>
                 <table className="">
@@ -60,7 +63,7 @@ export function Reviews() {
                                         <div className="flex-1 max-w-lg truncate">
                                             {review.body}
                                         </div>
-                                        <a href="">
+                                        <a href={getReviewLink(review)}>
                                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                                             </svg>

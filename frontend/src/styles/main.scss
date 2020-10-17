@@ -97,3 +97,14 @@ a {
         @apply text-dark-soft;
     }
 }
+
+button.accent {
+    @apply bg-primary;
+    @apply border-primary;
+    @apply text-white;
+
+    &:hover {
+        @apply bg-primary-dark;
+        @apply border-primary-dark;
+    }
+}

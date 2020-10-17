@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import superagent from 'superagent';
 import { Card } from '../common/Card';
+import { Button } from 'baseui/button';
+import { Checkbox, STYLE_TYPE } from 'baseui/checkbox';
 
 export function Settings() {
     const [isSubscribed, setSubscribed] = useState(false);
+    const [notificationsEnabled, setNotificationsEnabled] = useState(false);
 
     useEffect(() => {
         isSubscribedToPush().then(setSubscribed);
@@ -50,13 +53,20 @@ export function Settings() {
         <div>
             <h2 className="font-semibold mb-4">Settings</h2>
 
-            <Card>
-                <h2 className="mb-2 text-gray-600">Notification Settings</h2>
-
+            <Card title="Notification Settings">
+                {/* TODO make the button appear to request permission to show notifications */}
                 {isSubscribed
-                    ? <button className="accent" onClick={disableNotifications}>Disable Push Notifications</button>
-                    : <button className="accent" onClick={enableNotifications}>Enable Push Notifications</button>
+                    ? <Button onClick={disableNotifications}>Disable Push Notifications</Button>
+                    : <Button onClick={enableNotifications}>Enable Push Notifications</Button>
                 }
+
+                {/* TODO use the toggle to switch notifications on and off */}
+                <Checkbox
+                    checked={notificationsEnabled}
+                    onChange={e => setNotificationsEnabled(e.currentTarget.checked)}
+                    checkmarkType={STYLE_TYPE.toggle_round}>
+                    Enable Push Notifications
+                </Checkbox>
             </Card>
         </div>
     );

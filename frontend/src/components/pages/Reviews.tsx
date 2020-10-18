@@ -1,15 +1,24 @@
+import { StyledLink as Link } from 'baseui/link';
+import { Skeleton } from 'baseui/skeleton';
+import {
+    TableBuilder,
+    TableBuilderColumn
+} from 'baseui/table-semantic';
 import React, { useEffect, useState } from 'react';
 import superagent from 'superagent';
 import { ReviewData } from 'unity-publisher-api';
+import { tableBuilderOverrides } from '../../overrides/TableOverrides';
 import { Card } from '../common/Card';
 
 export function Reviews() {
+    const [loading, setLoading] = useState(true);
     const [reviews, setReviews] = useState<ReviewData[]>([]);
 
     useEffect(() => {
         superagent.get('/api/reviews')
             .then(res => {
                 setReviews(res.body);
+                setLoading(false);
             });
     }, []);
 
@@ -24,59 +33,53 @@ export function Reviews() {
 
     return (
         <div>
-            <h2 className="font-semibold mb-4">Reviews</h2>
-
             <div className="w-1/3 mb-4">
-                <Card accent>
-                    <div className="text-white">
-                        <h2 className="mb-2">Average rating</h2>
-                        <h1>
+                <Card title="Average Rating">
+                    {loading
+                        ? <Skeleton width="200px" height="40px" rows={2} animation />
+                        : <h1>
                             <span className="mr-4">
                                 {averageRating().toPrecision(2)}
                             </span>
                             {'⭐'.repeat(Math.round(averageRating()))}
                         </h1>
-                    </div>
+                    }
                 </Card>
             </div>
 
-            <Card>
-                <table className="">
-                    <thead>
-                        <tr>
-                            <th>Package</th>
-                            <th>Rating</th>
-                            <th>Subject</th>
-                            <th>Text</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reviews.map((review, index) =>
-                            <tr key={index}>
-                                <td>{review.package}</td>
-                                <td>{'⭐'.repeat(review.rating)}</td>
-                                <td className="w-32">{review.date}</td>
-                                <td>{review.subject}</td>
-                                <td>
-                                    <div className="flex space-x-1">
-                                        <div className="flex-1 max-w-lg truncate">
-                                            {review.body}
-                                        </div>
-                                        <a href={getReviewLink(review)}>
-                                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                                            </svg>
-                                        </a>
+            <Card title="Reviews">
+                {loading
+                    ? <Skeleton width="100%" height="100px" rows={4} animation />
+                    : <TableBuilder data={reviews} overrides={tableBuilderOverrides}>
+                        <TableBuilderColumn header="Package">
+                            {review => review.package}
+                        </TableBuilderColumn>
+                        <TableBuilderColumn header="Rating">
+                            {review => '⭐'.repeat(review.rating)}
+                        </TableBuilderColumn>
+                        <TableBuilderColumn header="Date">
+                            {review => review.date}
+                        </TableBuilderColumn>
+                        <TableBuilderColumn header="Subject">
+                            {review => review.subject}
+                        </TableBuilderColumn>
+                        <TableBuilderColumn header="Text">
+                            {review =>
+                                <div className="flex space-x-4 max-w-xl">
+                                    <div className="flex-1 truncate">
+                                        {review.body}
                                     </div>
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                                    <Link href={getReviewLink(review)}>
+                                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </Link>
+                                </div>
+                            }
+                        </TableBuilderColumn>
+                    </TableBuilder>
+                }
             </Card>
-
-
         </div>
     );
 }

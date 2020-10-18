@@ -62,7 +62,6 @@ async function initializePackageData() {
 }
 
 router.get('/months', async ctx => {
-    console.log(repository.getPackages());
     ctx.body = await api.getMonthsData();
 });
 

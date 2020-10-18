@@ -1,5 +1,6 @@
 import { SalesDto } from '@shared/SalesDto';
 import { Skeleton } from 'baseui/skeleton';
+import { H5 } from 'baseui/typography';
 import React from 'react';
 import { useQuery } from 'react-query';
 import { getSales } from 'src/api/sales';
@@ -41,7 +42,7 @@ export function MonthlySalesOverview({ month }: Props) {
                             <div className="mb-4">
                                 <MonthlySalesTable sales={sales}></MonthlySalesTable>
                             </div>
-                            <h3 className="font-semibold">{totalNumSales()} total sales</h3>
+                            <H5>{totalNumSales()} total sales</H5>
                         </Card>
                     </div>
 

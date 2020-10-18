@@ -7,6 +7,7 @@ import {
     TableBuilderColumn,
 } from 'baseui/table-semantic';
 import { Skeleton } from 'baseui/skeleton';
+import { tableBuilderOverrides } from '../../overrides/TableOverrides';
 
 export function Reviews() {
     const [loading, setLoading] = useState(true);
@@ -48,7 +49,7 @@ export function Reviews() {
             <Card title="Reviews">
                 {loading
                     ? <Skeleton width="100%" height="100px" rows={4} animation />
-                    : <TableBuilder data={reviews}>
+                    : <TableBuilder data={reviews} overrides={tableBuilderOverrides}>
                         <TableBuilderColumn header="Package">
                             {review => review.package}
                         </TableBuilderColumn>

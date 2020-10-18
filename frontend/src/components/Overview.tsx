@@ -1,14 +1,14 @@
+import { Select, Value } from 'baseui/select';
+import { H5 } from 'baseui/typography';
 import React, { useEffect, useState } from 'react';
-import superagent from 'superagent';
 import { useForm } from 'react-hook-form';
-import { SalesDto } from '../../../shared';
-import { Card } from './common/Card';
+import superagent from 'superagent';
 import { MonthData } from 'unity-publisher-api';
+import { SalesDto } from '../../../shared';
 import { formatCurrency } from '../utils/formatCurrency';
+import { Card } from './common/Card';
 import { MonthlySalesChart } from './MonthlySalesChart';
 import { MonthlySalesTable } from './pages/overview/MonthlySalesTable';
-import { Select, Value } from 'baseui/select';
-import { H1, H2, H3, H4, H5, H6 } from 'baseui/typography';
 
 interface FormData {
     email: string;
@@ -109,8 +109,10 @@ function Overview() {
                                     clearable={false}
                                     overrides={{
                                         SingleValue: {
-                                            style: {
-                                                fontWeight: 500
+                                            style: ({ $theme }) => {
+                                                return {
+                                                    fontSize: $theme.typography.HeadingXSmall.fontSize
+                                                }
                                             }
                                         }
                                     }}

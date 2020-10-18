@@ -13,8 +13,6 @@ type Props = {
 };
 
 export function MonthlySalesOverview({ month }: Props) {
-    console.log('init');
-
     const { data: sales } = useQuery(['sales', month], () => getSales(month));
 
     function salesTotalGross(): number {
@@ -37,8 +35,8 @@ export function MonthlySalesOverview({ month }: Props) {
         !sales
             ? <Skeleton width="100%" height="100px" rows={4} animation />
             : <div>
-                <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
-                    <div>
+                <div className="grid lg:grid-cols-5 md:grid-cols-1 gap-4">
+                    <div className="col-span-3">
                         <Card title="Sales">
                             <div className="mb-4">
                                 <MonthlySalesTable sales={sales}></MonthlySalesTable>
@@ -47,7 +45,7 @@ export function MonthlySalesOverview({ month }: Props) {
                         </Card>
                     </div>
 
-                    <div>
+                    <div className="col-span-2">
                         <div className="mb-4">
                             <Card title="Revenue">
                                 <div className="flex">

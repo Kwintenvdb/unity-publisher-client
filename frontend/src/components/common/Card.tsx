@@ -1,28 +1,22 @@
-import React, { FunctionComponent } from 'react';
 import {
     Card as BaseCard,
-    StyledBody,
-    StyledAction
+    StyledBody
 } from 'baseui/card';
+import React, { FunctionComponent } from 'react';
 
 type CardProps = {
-    accent?: boolean;
     title?: string;
 };
 
-export const Card: FunctionComponent<CardProps> = ({ accent, title, children }) => {
-    function getClasses() {
-        if (accent)
-            return 'bg-primary rounded-lg shadow-md px-6 py-4';
-        else
-            return 'bg-white rounded-lg shadow-md px-6 py-4';
-    }
-
+export const Card: FunctionComponent<CardProps> = ({ title, children }) => {
     return (
         <BaseCard title={title} overrides={{
             Root: {
                 style: {
-                    borderWidth: '1px'
+                    borderTopWidth: '1px',
+                    borderLeftWidth: '1px',
+                    borderBottomWidth: '1px',
+                    borderRightWidth: '1px'
                 }
             }
         }}>

@@ -7,7 +7,7 @@ import {
 
 import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
-import { createLightTheme, LightTheme, BaseProvider, lightThemePrimitives } from 'baseui';
+import { createLightTheme, LightTheme, BaseProvider } from 'baseui';
 
 import Overview from './components/Overview';
 import './styles/tailwind.css';
@@ -15,6 +15,8 @@ import './styles/main.scss';
 import { Reviews } from './components/pages/Reviews';
 import { Sidebar } from './components/common/Sidebar';
 import { Settings } from './components/pages/Settings';
+
+import { ReactQueryDevtools } from 'react-query-devtools'
 
 const engine = new Styletron();
 
@@ -49,6 +51,7 @@ function App() {
             }}>
                 <Router>
                     <div className="h-full">
+                        <ReactQueryDevtools initialIsOpen />
                         <div className="flex h-full">
                             <div className="self-stretch">
                                 <Sidebar></Sidebar>
@@ -70,6 +73,7 @@ function App() {
                                 </Switch>
                             </div>
                         </div>
+
                     </div>
                 </Router>
             </BaseProvider>

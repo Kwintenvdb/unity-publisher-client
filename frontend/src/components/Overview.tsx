@@ -7,8 +7,9 @@ import { MonthData } from 'unity-publisher-api';
 import { SalesDto } from '../../../shared';
 import { formatCurrency } from '../utils/formatCurrency';
 import { Card } from './common/Card';
-import { MonthlySalesChart } from './MonthlySalesChart';
+import { MonthlySalesChart } from './pages/overview/MonthlySalesChart';
 import { MonthlySalesTable } from './pages/overview/MonthlySalesTable';
+import { FlexGrid, FlexGridItem } from 'baseui/flex-grid';
 
 interface FormData {
     email: string;
@@ -111,21 +112,29 @@ function Overview() {
                                         SingleValue: {
                                             style: ({ $theme }) => {
                                                 return {
-                                                    fontSize: $theme.typography.HeadingXSmall.fontSize
+                                                    fontSize: $theme.typography.HeadingXSmall.fontSize,
+                                                    fontWeight: $theme.typography.HeadingXSmall.fontWeight
                                                 }
                                             }
                                         }
                                     }}
                                 />
                             </div>
-
                         </div>
-
                     </h2>
                 </div>
 
-                <div className="flex space-x-4">
-                    <div className="flex-1">
+                <div className="grid lg:grid-cols-2 md:grid-cols-1 gap-4">
+                    <div>
+                        <Card title="Sales">
+                            <div className="mb-4">
+                                <MonthlySalesTable sales={sales}></MonthlySalesTable>
+                            </div>
+                            <h3 className="font-semibold">{totalNumSales()} total sales</h3>
+                        </Card>
+                    </div>
+
+                    <div>
                         <div className="mb-4">
                             <Card title="Revenue">
                                 <div className="flex">
@@ -146,23 +155,12 @@ function Overview() {
                         </div>
 
                         <div>
-                            <Card title="Sales">
-                                <div className="mb-4">
-                                    <MonthlySalesTable sales={sales}></MonthlySalesTable>
-                                </div>
-                                <h3 className="font-semibold">{totalNumSales()} total sales</h3>
+                            <Card title="Sales Ratio">
+                                {sales && <MonthlySalesChart sales={sales}></MonthlySalesChart>}
                             </Card>
                         </div>
                     </div>
-
-                    <div className="flex-1">
-                        <Card title="Sales Ratio">
-                            {sales && <MonthlySalesChart sales={sales}></MonthlySalesChart>}
-                        </Card>
-                        {/* <SalesChart></SalesChart> */}
-                    </div>
                 </div>
-
             </div>
         );
     }

@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { SalesDto } from '@shared/SalesDto'
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-colorschemes';
-import { getDistinctElements } from '../utils/distinctElements';
+import { getDistinctElements } from '../../../utils/distinctElements';
 
 type MonthlySalesChartProps = {
     sales: SalesDto[];
@@ -32,6 +32,7 @@ export const MonthlySalesChart: FunctionComponent<MonthlySalesChartProps> = ({ s
                     }]
                 },
                 options: {
+                    responsive: false,
                     plugins: {
                         colorschemes: {
                             scheme: 'tableau.Tableau10'
@@ -47,8 +48,8 @@ export const MonthlySalesChart: FunctionComponent<MonthlySalesChartProps> = ({ s
     }, [sales, canvasRef]);
 
     return (
-        <div className="p-4">
-            <canvas ref={canvasRef} height="300" width="300"></canvas>
+        <div className="p-4 flex justify-center">
+            <canvas ref={canvasRef} height="400" width="400"></canvas>
         </div>
     );
 }

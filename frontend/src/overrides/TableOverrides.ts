@@ -8,5 +8,12 @@ export const tableBuilderOverrides: BuilderOverrides = {
                 content: 'none'
             }
         }
+    },
+    TableBodyCell: {
+        style: ({ $theme }) => {
+            return {
+                padding: $theme.sizing.scale400
+            }
+        }
     }
 }

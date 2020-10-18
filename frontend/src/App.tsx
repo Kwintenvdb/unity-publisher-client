@@ -18,11 +18,18 @@ import { Settings } from './components/pages/Settings';
 
 const engine = new Styletron();
 
-const theme = createLightTheme({}, {
+const theme = createLightTheme({
+    primaryFontFamily: 'Source Sans Pro'
+}, {
     colors: {
         linkText: LightTheme.colors.accent,
         linkVisited: LightTheme.colors.accent500,
         linkHover: LightTheme.colors.accent600
+    },
+    typography: {
+        ParagraphSmall: {
+            fontSize: '16px'
+        }
     }
 });
 

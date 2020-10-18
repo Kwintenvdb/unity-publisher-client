@@ -19,9 +19,6 @@ export const Card: FunctionComponent<CardProps> = ({ accent, title, children }) 
     }
 
     return (
-        // <div className={getClasses()}>
-        //     {children}
-        // </div>
         <BaseCard title={title} overrides={{
             Root: {
                 style: {

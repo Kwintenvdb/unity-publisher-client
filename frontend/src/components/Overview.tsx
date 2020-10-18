@@ -13,13 +13,6 @@ interface FormData {
 }
 
 function Overview() {
-
-    // const { data: isLoggedIn } = useQuery('auth', isAuthenticated)
-
-    // const monthsQuery = useQuery('months', getMonths, {
-    //     enabled: isLoggedIn
-    // });
-
     const { register, handleSubmit } = useForm<FormData>();
     const [authenticated, setAuthenticated] = useState(false);
     const [months, setMonths] = useState<MonthData[]>([]);
@@ -36,7 +29,7 @@ function Overview() {
         superagent.post('/api/authenticate')
             .send(data)
             .then(() => {
-                // setAuthenticated(true);
+                setAuthenticated(true);
             });
     };
 

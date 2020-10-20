@@ -9,14 +9,18 @@ import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { createLightTheme, LightTheme, BaseProvider } from 'baseui';
 
-import Overview from './components/Overview';
 import './styles/tailwind.css';
 import './styles/main.scss';
+import { Overview } from './components/Overview';
 import { Reviews } from './components/pages/Reviews';
 import { Sidebar } from './components/common/Sidebar';
 import { Settings } from './components/pages/Settings';
 
 import { ReactQueryDevtools } from 'react-query-devtools'
+import { QueryCache, ReactQueryCacheProvider, useQuery } from 'react-query';
+import { AuthRoute } from './components/authentication/AuthRoute';
+import { Login } from './components/pages/Login';
+import { AuthProvider } from './components/authentication/AuthContext';
 
 const engine = new Styletron();
 
@@ -37,47 +41,62 @@ const theme = createLightTheme({
 
 console.log(theme);
 
+const queryCache = new QueryCache();
 
 function App() {
     return (
-        <StyletronProvider value={engine}>
-            {/* baseprovider div needs class h-full */}
-            <BaseProvider theme={theme} overrides={{
-                AppContainer: {
-                    style: {
-                        height: '100%'
-                    }
-                }
-            }}>
-                <Router>
-                    <div className="h-full">
-                        <ReactQueryDevtools initialIsOpen />
-                        <div className="flex h-full">
-                            <div className="self-stretch">
-                                <Sidebar></Sidebar>
-                            </div>
+        <div className="h-full">
 
-                            <div className="max-h-full w-full py-10 px-16 overflow-y-auto">
-                                <Switch>
-                                    <Route path="/reviews">
-                                        <Reviews></Reviews>
-                                    </Route>
+            <AuthProvider>
+                <StyletronProvider value={engine}>
+                    {/* baseprovider div needs class h-full */}
+                    <BaseProvider theme={theme} overrides={{
+                        AppContainer: {
+                            style: {
+                                height: '100%'
+                            }
+                        }
+                    }}>
+                        <ReactQueryCacheProvider queryCache={queryCache}>
+                            <ReactQueryDevtools initialIsOpen />
 
-                                    <Route path="/settings">
-                                        <Settings></Settings>
-                                    </Route>
+                            <Router>
+                                <div className="h-full">
+                                    <div className="flex h-full">
+                                        <div className="self-stretch">
+                                            <Sidebar></Sidebar>
+                                        </div>
 
-                                    <Route path="/" exact strict>
-                                        <Overview></Overview>
-                                    </Route>
-                                </Switch>
-                            </div>
-                        </div>
+                                        <div className="max-h-full w-full py-10 px-16 overflow-y-auto">
+                                            <Switch>
+                                                <AuthRoute path="/reviews">
+                                                    <Reviews></Reviews>
+                                                </AuthRoute>
 
-                    </div>
-                </Router>
-            </BaseProvider>
-        </StyletronProvider>
+                                                <AuthRoute path="/settings">
+                                                    <Settings></Settings>
+                                                </AuthRoute>
+
+                                                <Route path="/login">
+                                                    <Login></Login>
+                                                </Route>
+
+                                                <AuthRoute path="/" exact strict>
+                                                    <Overview></Overview>
+                                                </AuthRoute>
+                                            </Switch>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </Router>
+                        </ReactQueryCacheProvider>
+                    </BaseProvider>
+                </StyletronProvider>
+            </AuthProvider>
+        </div>
+
+
     );
 }
 

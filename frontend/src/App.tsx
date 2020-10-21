@@ -21,7 +21,7 @@ import './styles/tailwind.css';
 const engine = new Styletron();
 
 const theme = createLightTheme({
-    primaryFontFamily: 'Source Sans Pro'
+    // primaryFontFamily: 'Source Sans Pro'
 }, {
     colors: {
         linkText: LightTheme.colors.accent,

@@ -1,6 +1,7 @@
 import { Button } from 'baseui/button';
 import { Input } from 'baseui/input';
 import { FormControl } from 'baseui/form-control';
+import { Notification } from 'baseui/notification';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Redirect } from 'react-router-dom';
@@ -60,6 +61,21 @@ export function Authentication() {
                         </FormControl>
                         <Button type="submit" isLoading={isLoading}>Submit</Button>
                     </form>
+
+                    <Notification kind="warning" overrides={{
+                        Body: {
+                            style: {
+                                width: '100%'
+                            }
+                        }
+                    }}>
+                        <p className="mb-1">IMPORTANT NOTE</p>
+                        <p className="font-normal">
+                            Enter your Unity ID credentials here. Your credentials are not stored in the database, they are
+                            only kept in memory on the server. Only a single logged in user is allowed per server instance.
+                            This application has no affiliation with Unity Technologies.
+                        </p>
+                    </Notification>
                 </Card>
 
             </div>

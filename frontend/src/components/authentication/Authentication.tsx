@@ -12,6 +12,7 @@ export function Authentication() {
         superagent.post('/api/authenticate')
             .send(data)
             .then(() => {
+                console.log('authenticated');
                 setAuthenticated();
             });
     };

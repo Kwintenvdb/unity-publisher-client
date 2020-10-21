@@ -1,16 +1,9 @@
 import { Select, Value } from 'baseui/select';
 import { H5 } from 'baseui/typography';
-import React, { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-import superagent from 'superagent';
 import { getMonths } from '../api';
 import { MonthlySalesOverview } from './pages/overview/MonthlySalesOverview';
-
-interface FormData {
-    email: string;
-    password: string;
-}
 
 export function Overview() {
     // TODO transform months data in getter function

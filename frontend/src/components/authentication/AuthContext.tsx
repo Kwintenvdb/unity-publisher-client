@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useQuery } from 'react-query';
 import { isAuthenticated } from 'src/api';
 
@@ -8,14 +8,19 @@ const AuthContext = React.createContext({
 });
 
 export const AuthProvider: React.FunctionComponent = ({ children }) => {
-    let { data: isAuth } = useQuery('auth', isAuthenticated);
+    const { data } = useQuery('auth', isAuthenticated);
+    const [auth, setAuth] = useState(false);
+
+    useEffect(() => {
+        setAuth(!!data);
+    }, [data]);
 
     const setAuthenticated = () => {
-        isAuth = true;
+        setAuth(true);
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated: !!isAuth, setAuthenticated }}>
+        <AuthContext.Provider value={{ isAuthenticated: auth, setAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );

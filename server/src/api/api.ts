@@ -17,7 +17,9 @@ router.get('/isAuthenticated', async ctx => {
 router.post('/authenticate', async ctx => {
     const { email, password } = ctx.request.body;
     await api.authenticate(email, password);
+    console.log('caching data...');
     await cacheData();
+    console.log('caching data done');
     isAuthenticated = true;
     ctx.status = 200;
 });

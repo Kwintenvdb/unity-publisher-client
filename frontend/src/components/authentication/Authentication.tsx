@@ -25,7 +25,7 @@ export function Authentication() {
 
     const onSubmit = async (data: FormData) => {
         await authenticateMutation(data);
-        setAuthenticated();
+        setAuthenticated(true);
     };
 
     if (isAuthenticated) {

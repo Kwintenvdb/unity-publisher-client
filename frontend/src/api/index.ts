@@ -1,4 +1,4 @@
 export * from './months';
-export * from './authenticated';
+export * from './authentication';
 export * from './sales';
 export * from './reviews';

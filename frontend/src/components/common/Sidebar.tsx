@@ -1,9 +1,21 @@
 import React from 'react';
+import superagent from 'superagent';
+import { useMutation } from 'react-query';
 import { NavLink } from 'react-router-dom';
+import { useAuth } from '../authentication/AuthContext';
+import { logout } from '../../api/authentication';
 
 export function Sidebar() {
+    const { setAuthenticated } = useAuth();
+    const [logoutMutation] = useMutation(logout);
+
+    const doLogout = async () => {
+        await logoutMutation();
+        setAuthenticated(false);
+    };
+
     return (
-        <div className="w-64 h-full bg-dark p-4">
+        <div className="w-64 h-full flex flex-col bg-dark p-4">
             <h2 className="text-white font-semibold mb-6">
                 Unity Publisher Client
             </h2>
@@ -32,6 +44,19 @@ export function Sidebar() {
                     </span>
                 </div>
             </NavLink>
+
+            <div className="flex-1"></div>
+
+            <button className="cursor-pointer" onClick={doLogout}>
+                <div className="sidebar-item">
+                    <div className="flex space-x-2">
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
+                        <span>
+                            Logout
+                        </span>
+                    </div>
+                </div>
+            </button>
         </div>
     );
 }

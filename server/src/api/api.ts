@@ -31,6 +31,13 @@ async function cacheData() {
     ]);
 }
 
+router.post('/logout', ctx => {
+    console.log('Logging out...');
+    api.logout();
+    isAuthenticated = false;
+    ctx.status = 200;
+});
+
 /**
  * TODO:
  * - Run this as a job every X minutes

@@ -4,7 +4,7 @@ import { isAuthenticated } from 'src/api';
 
 const AuthContext = React.createContext({
     isAuthenticated: false,
-    setAuthenticated: () => { }
+    setAuthenticated: (authenticated: boolean) => { }
 });
 
 export const AuthProvider: React.FunctionComponent = ({ children }) => {
@@ -15,8 +15,8 @@ export const AuthProvider: React.FunctionComponent = ({ children }) => {
         setAuth(!!data);
     }, [data]);
 
-    const setAuthenticated = () => {
-        setAuth(true);
+    const setAuthenticated = (authenticated = true) => {
+        setAuth(authenticated);
     };
 
     return (

@@ -8,15 +8,22 @@ type CardProps = {
     title?: string;
 };
 
+const borderWidth = '1px';
+const extraPadding = '4px';
+
 export const Card: FunctionComponent<CardProps> = ({ title, children }) => {
     return (
         <BaseCard title={title} overrides={{
             Root: {
                 style: {
-                    borderTopWidth: '1px',
-                    borderLeftWidth: '1px',
-                    borderBottomWidth: '1px',
-                    borderRightWidth: '1px'
+                    borderTopWidth: borderWidth,
+                    borderLeftWidth: borderWidth,
+                    borderBottomWidth: borderWidth,
+                    borderRightWidth: borderWidth,
+                    paddingTop: extraPadding,
+                    paddingLeft: extraPadding,
+                    paddingBottom: extraPadding,
+                    paddingRight: extraPadding
                 }
             }
         }}>

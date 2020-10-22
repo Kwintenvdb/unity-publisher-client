@@ -12,7 +12,10 @@ export const tableBuilderOverrides: BuilderOverrides = {
     TableBodyCell: {
         style: ({ $theme }) => {
             return {
-                padding: $theme.sizing.scale400
+                paddingTop: $theme.sizing.scale400,
+                paddingLeft: $theme.sizing.scale400,
+                paddingBottom: $theme.sizing.scale400,
+                paddingRight: $theme.sizing.scale400
             }
         }
     }

@@ -28,6 +28,9 @@ export function MonthlySalesTable({ sales }: Props) {
                 <TableBuilderColumn header="Gross" numeric>
                     {row => formatCurrency(row.gross)}
                 </TableBuilderColumn>
+                <TableBuilderColumn header="Last Sale">
+                    {row => row.lastSale}
+                </TableBuilderColumn>
             </TableBuilder>
         </div>
     );

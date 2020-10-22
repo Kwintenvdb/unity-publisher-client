@@ -7,7 +7,6 @@ export class Repository {
     private readonly db = new Database('storage.db', { verbose: console.log });
 
     constructor() {
-        // Create the packages table
         this.db.exec(`
             CREATE TABLE IF NOT EXISTS packages (
                 id INTEGER PRIMARY KEY,
@@ -23,6 +22,7 @@ export class Repository {
                 numSales INTEGER NOT NULL,
                 price REAL NOT NULL,
                 gross REAL NOT NULL,
+                lastSale TEXT NOT NULL,
                 PRIMARY KEY (month, package, price)
             );
         `);
@@ -46,7 +46,9 @@ export class Repository {
     }
 
     public storeSales(sales: SalesByMonth[]) {
-        const insertSaleStmt = this.db.prepare('INSERT OR REPLACE INTO sales (month, package, numSales, price, gross) VALUES (?, ?, ?, ?, ?)');
+        const insertSaleStmt = this.db.prepare(`INSERT OR REPLACE INTO sales
+            (month, package, numSales, price, gross, lastSale) VALUES
+            (?, ?, ?, ?, ?, ?)`);
         const getSalesStmt = this.db.prepare(`
             SELECT numSales FROM sales
             WHERE month = ?
@@ -75,7 +77,7 @@ export class Repository {
                     if (sale.sales > prevNumSales) {
                         const numNewSales = sale.sales - prevNumSales;
                         console.log('New sales for ' + sale.packageName + ', new sales: ' + numNewSales);
-                        insertSaleStmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.price, sale.gross);
+                        insertSaleStmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.price, sale.gross, sale.lastSale);
                     }
                 });
             });

@@ -11,15 +11,15 @@ const api = new UnityPublisherApi();
 let isAuthenticated = false;
 
 router.get('/isAuthenticated', async ctx => {
-    ctx.body = {
-        isAuthenticated
-    };
+    ctx.body = isAuthenticated;
 });
 
 router.post('/authenticate', async ctx => {
     const { email, password } = ctx.request.body;
     await api.authenticate(email, password);
+    console.log('caching data...');
     await cacheData();
+    console.log('caching data done');
     isAuthenticated = true;
     ctx.status = 200;
 });
@@ -30,6 +30,13 @@ async function cacheData() {
         initializeSalesData()
     ]);
 }
+
+router.post('/logout', ctx => {
+    console.log('Logging out...');
+    api.logout();
+    isAuthenticated = false;
+    ctx.status = 200;
+});
 
 /**
  * TODO:
@@ -67,6 +74,7 @@ router.get('/months', async ctx => {
 
 router.get('/sales/:month', async ctx => {
     const { month } = ctx.params;
+    console.log('getting sales for ', month);
     const salesByMonth = repository.getSalesByMonth(month);
     salesByMonth.forEach(sbm => {
         const pkg = repository.getPackageByName(sbm.package);

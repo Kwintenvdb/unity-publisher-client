@@ -4,25 +4,18 @@ import {
     TableBuilder,
     TableBuilderColumn
 } from 'baseui/table-semantic';
-import React, { useEffect, useState } from 'react';
-import superagent from 'superagent';
+import React from 'react';
+import { useQuery } from 'react-query';
+import { getReviews } from 'src/api';
 import { ReviewData } from 'unity-publisher-api';
 import { tableBuilderOverrides } from '../../overrides/TableOverrides';
 import { Card } from '../common/Card';
 
 export function Reviews() {
-    const [loading, setLoading] = useState(true);
-    const [reviews, setReviews] = useState<ReviewData[]>([]);
-
-    useEffect(() => {
-        superagent.get('/api/reviews')
-            .then(res => {
-                setReviews(res.body);
-                setLoading(false);
-            });
-    }, []);
+    const { data: reviews, isLoading } = useQuery('reviews', getReviews);
 
     function averageRating(): number {
+        if (!reviews) return 0;
         const sum = reviews.reduce((sum, value) => sum + value.rating, 0);
         return sum / reviews.length;
     }
@@ -35,7 +28,7 @@ export function Reviews() {
         <div>
             <div className="w-1/3 mb-4">
                 <Card title="Average Rating">
-                    {loading
+                    {isLoading
                         ? <Skeleton width="200px" height="40px" rows={2} animation />
                         : <h1>
                             <span className="mr-4">
@@ -48,9 +41,9 @@ export function Reviews() {
             </div>
 
             <Card title="Reviews">
-                {loading
+                {isLoading
                     ? <Skeleton width="100%" height="100px" rows={4} animation />
-                    : <TableBuilder data={reviews} overrides={tableBuilderOverrides}>
+                    : <TableBuilder data={reviews as ReviewData[]} overrides={tableBuilderOverrides}>
                         <TableBuilderColumn header="Package">
                             {review => review.package}
                         </TableBuilderColumn>

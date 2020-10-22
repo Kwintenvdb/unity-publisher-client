@@ -5,4 +5,5 @@ export interface SalesDto {
     numSales: number;
     price: number;
     gross: number;
+    lastSale: string;
 }

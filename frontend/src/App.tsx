@@ -1,4 +1,4 @@
-import { BaseProvider, createLightTheme, LightTheme } from 'baseui';
+import { BaseProvider, createLightTheme, LightTheme, lightThemePrimitives } from 'baseui';
 import React from 'react';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query-devtools';
@@ -20,9 +20,17 @@ import './styles/tailwind.css';
 
 const engine = new Styletron();
 
+const borderRadius = LightTheme.borders.radius200;
+
 const theme = createLightTheme({
+
     // primaryFontFamily: 'Source Sans Pro'
 }, {
+    borders: {
+        surfaceBorderRadius: borderRadius,
+        buttonBorderRadius: borderRadius,
+        inputBorderRadius: borderRadius
+    },
     colors: {
         linkText: LightTheme.colors.accent,
         linkVisited: LightTheme.colors.accent500,
@@ -51,7 +59,7 @@ function App() {
                         }
                     }}>
                         <ReactQueryCacheProvider queryCache={queryCache}>
-                            <ReactQueryDevtools initialIsOpen />
+                            {/* <ReactQueryDevtools initialIsOpen /> */}
 
                             <Router>
                                 <Switch>

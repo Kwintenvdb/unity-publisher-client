@@ -16,6 +16,7 @@ module.exports = {
         container: {
             center: true,
         },
+
         extend: {
             colors: {
                 dark: '#233857',
@@ -23,7 +24,10 @@ module.exports = {
                 primary: '#09a6d0',
                 'primary-dark': '#028cb1',
                 accent: '#B3405D'
-            }
+            },
+            boxShadow: {
+                md: '0 4px 8px -1px rgba(0, 0, 0, 0.05)'
+            },
         }
     },
     variants: {},

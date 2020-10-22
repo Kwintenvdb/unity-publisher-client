@@ -4,7 +4,7 @@ import { FormControl } from 'baseui/form-control';
 import { Notification } from 'baseui/notification';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useLocation } from 'react-router-dom';
 import superagent from 'superagent';
 import { useAuth } from './AuthContext';
 import { Card } from '../common/Card';
@@ -18,10 +18,14 @@ function authenticate(data: FormData): Promise<void> {
         });
 }
 
+type LocationState = {
+    referrer: Location;
+};
+
 export function Authentication() {
+    const location = useLocation<LocationState>();
     const { register, handleSubmit } = useForm<FormData>();
     const { isAuthenticated, setAuthenticated } = useAuth();
-
     const [authenticateMutation, { isLoading }] = useMutation(authenticate);
 
     const onSubmit = async (data: FormData) => {
@@ -29,9 +33,11 @@ export function Authentication() {
         setAuthenticated(true);
     };
 
+    console.log('is authenticated?', isAuthenticated);
+
     if (isAuthenticated) {
         return (
-            <Redirect to="/"></Redirect>
+            <Redirect to={location.state.referrer} />
         );
     }
 

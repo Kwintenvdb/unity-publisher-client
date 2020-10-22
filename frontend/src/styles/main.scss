@@ -3,8 +3,9 @@ html {
 }
 
 body {
-    background-color: #f6f6f6;
-    font-family: 'Lato', sans-serif;
+    background-color: #f9f9f9;
+    // font-family: 'Lato', sans-serif;
+    // @apply bg-gray-100;
     @apply h-full;
 }
 
@@ -73,28 +74,28 @@ body {
     @apply mb-2;
     @apply no-underline;
 
-    @apply text-dark-soft;
+    // @apply text-dark-soft;
     
     &:hover {
         background-color: rgba(0, 0, 0, 0.1);
-        @apply text-white;
+        // @apply text-white;
 
         svg {
-            @apply text-dark-soft;
+            // @apply text-dark-soft;
         }
     }
 
     &.active {
         background-color: rgba(0, 0, 0, 0.15);
-        @apply text-white;
+        // @apply text-white;
 
         svg {
-            @apply text-dark-soft;
+            // @apply text-dark-soft;
         }
     }
 
     svg {
-        @apply text-dark-soft;
+        // @apply text-dark-soft;
     }
 }
 

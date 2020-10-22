@@ -1,11 +1,14 @@
 import React from 'react';
-import superagent from 'superagent';
 import { useMutation } from 'react-query';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import { useAuth } from '../authentication/AuthContext';
 import { logout } from '../../api/authentication';
+import { Navigation } from 'baseui/side-navigation';
+import { Button } from 'baseui/button';
 
 export function Sidebar() {
+    const location = useLocation();
+    const history = useHistory();
     const { setAuthenticated } = useAuth();
     const [logoutMutation] = useMutation(logout);
 
@@ -15,12 +18,62 @@ export function Sidebar() {
     };
 
     return (
-        <div className="w-64 h-full flex flex-col bg-dark p-4">
-            <h2 className="text-white font-semibold mb-6">
+        <div className="w-64 h-full flex flex-col bg-white border-r">
+            <h2 className="font-semibold text-lg mb-6 text-center mt-4">
                 Unity Publisher Client
             </h2>
 
-            <NavLink to="/" exact className="sidebar-item">
+            <Navigation
+                items={[
+                    {
+                        title: 'Home',
+                        itemId: '/'
+                    },
+                    {
+                        title: 'Reviews',
+                        itemId: '/reviews'
+                    },
+                    {
+                        title: 'Settings',
+                        itemId: '/settings'
+                    }
+                ]}
+                activeItemId={location.pathname}
+                onChange={({ event, item }) => {
+                    event.preventDefault();
+                    history.push(item.itemId);
+                }}
+                overrides={{
+                    NavItem: {
+                        style: ({ $active, $theme }) => {
+                            const activeColor = $theme.colors.accent;
+                            const bgColor = $theme.colors.accent50;
+                            if ($active) {
+                                return {
+                                    color: activeColor,
+                                    backgroundColor: bgColor,
+                                    backgroundImage: 'none',
+                                    borderRightWidth: '4px',
+                                    borderLeftWidth: '0',
+                                    borderRightColor: activeColor,
+                                    ':hover': {
+                                        color: activeColor
+                                    }
+                                };
+                            }
+                            return {
+                                borderLeftWidth: '0',
+                                ':hover': {
+                                    // backgroundColor: 'red',
+                                    color: activeColor
+                                }
+                            };
+                        }
+                    }
+                }}
+            />
+
+            {/* <NavLink to="/" exact className="sidebar-item">
                 <div className="flex space-x-2">
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
                     <span>
@@ -43,20 +96,30 @@ export function Sidebar() {
                         Settings
                     </span>
                 </div>
-            </NavLink>
+            </NavLink> */}
 
             <div className="flex-1"></div>
 
-            <button className="cursor-pointer" onClick={doLogout}>
-                <div className="sidebar-item">
-                    <div className="flex space-x-2">
+            <Button
+                kind="secondary"
+                startEnhancer={() => {
+                    return (
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                        <span>
-                            Logout
-                        </span>
-                    </div>
-                </div>
-            </button>
+                    );
+                }}
+                overrides={{
+                    Root: {
+                        style: {
+                            marginLeft: '24px',
+                            marginRight: '24px',
+                            marginBottom: '24px'
+                        }
+                    }
+                }}
+                onClick={doLogout}
+            >
+                Logout
+            </Button>
         </div>
     );
 }

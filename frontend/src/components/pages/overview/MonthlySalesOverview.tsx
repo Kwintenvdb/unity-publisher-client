@@ -36,7 +36,7 @@ export function MonthlySalesOverview({ month }: Props) {
         !sales
             ? <Skeleton width="100%" height="100px" rows={4} animation />
             : <div>
-                <div className="grid lg:grid-cols-5 md:grid-cols-1 gap-4">
+                <div className="grid lg:grid-cols-5 md:grid-cols-1 gap-6">
                     <div className="lg:col-span-3">
                         <Card title="Sales">
                             <div className="mb-4">
@@ -47,7 +47,7 @@ export function MonthlySalesOverview({ month }: Props) {
                     </div>
 
                     <div className="lg:col-span-2">
-                        <div className="mb-4">
+                        <div className="mb-6">
                             <Card title="Revenue">
                                 <div className="flex">
                                     <div className="w-1/2">

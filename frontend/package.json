@@ -10,7 +10,7 @@
         "@types/node": "^12.12.62",
         "@types/react": "^16.9.50",
         "@types/react-dom": "^16.9.8",
-        "baseui": "^9.102.0",
+        "baseui": "^9.103.0",
         "chart.js": "^2.9.3",
         "chartjs-plugin-colorschemes": "^0.4.0",
         "cra-append-sw": "^2.7.0",

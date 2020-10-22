@@ -1,9 +1,11 @@
 import { StyledLink as Link } from 'baseui/link';
+import { StarRating as Rating } from 'baseui/rating';
 import { Skeleton } from 'baseui/skeleton';
 import {
     TableBuilder,
     TableBuilderColumn
 } from 'baseui/table-semantic';
+import { H4 } from 'baseui/typography';
 import React from 'react';
 import { useQuery } from 'react-query';
 import { getReviews } from 'src/api';
@@ -30,12 +32,12 @@ export function Reviews() {
                 <Card title="Average Rating">
                     {isLoading
                         ? <Skeleton width="200px" height="40px" rows={2} animation />
-                        : <h1>
+                        : <H4>
                             <span className="mr-4">
                                 {averageRating().toPrecision(2)}
                             </span>
-                            {'⭐'.repeat(Math.round(averageRating()))}
-                        </h1>
+                            <Rating readOnly value={Math.round(averageRating())} />
+                        </H4>
                     }
                 </Card>
             </div>
@@ -48,7 +50,7 @@ export function Reviews() {
                             {review => review.package}
                         </TableBuilderColumn>
                         <TableBuilderColumn header="Rating">
-                            {review => '⭐'.repeat(review.rating)}
+                            {review => <Rating readOnly value={review.rating} />}
                         </TableBuilderColumn>
                         <TableBuilderColumn header="Date">
                             {review => review.date}

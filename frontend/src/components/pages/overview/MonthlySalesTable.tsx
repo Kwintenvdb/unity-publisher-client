@@ -19,13 +19,13 @@ export function MonthlySalesTable({ sales }: Props) {
                 <TableBuilderColumn header="Package">
                     {row => <Link href={row.packageUrl}>{row.package}</Link>}
                 </TableBuilderColumn>
-                <TableBuilderColumn header="Sales" numeric>
+                <TableBuilderColumn header="Sales">
                     {row => row.numSales}
                 </TableBuilderColumn>
-                <TableBuilderColumn header="Price" numeric>
+                <TableBuilderColumn header="Price">
                     {row => formatCurrency(row.price)}
                 </TableBuilderColumn>
-                <TableBuilderColumn header="Gross" numeric>
+                <TableBuilderColumn header="Gross">
                     {row => formatCurrency(row.gross)}
                 </TableBuilderColumn>
                 <TableBuilderColumn header="Last Sale">

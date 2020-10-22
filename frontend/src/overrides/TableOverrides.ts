@@ -1,21 +1,39 @@
 import { BuilderOverrides } from "baseui/table-semantic";
 
 export const tableBuilderOverrides: BuilderOverrides = {
-    TableHeadCell: {
+    Root: {
         style: {
-            borderBottomWidth: '1px',
-            '::after': {
-                content: 'none'
-            }
+            border: '0'
+        }
+    },
+    TableHeadCell: {
+        style: ({ $theme }) => {
+            const padding = $theme.sizing.scale600;
+            return {
+                borderRightWidth: '0px',
+                borderBottomWidth: '1px',
+                '::before': {
+                    content: 'none'
+                },
+                '::after': {
+                    content: 'none'
+                },
+                paddingTop: padding,
+                paddingLeft: padding,
+                paddingBottom: padding,
+                paddingRight: padding,
+            };
         }
     },
     TableBodyCell: {
         style: ({ $theme }) => {
+            const padding = $theme.sizing.scale600;
             return {
-                paddingTop: $theme.sizing.scale400,
-                paddingLeft: $theme.sizing.scale400,
-                paddingBottom: $theme.sizing.scale400,
-                paddingRight: $theme.sizing.scale400
+                paddingTop: padding,
+                paddingLeft: padding,
+                paddingBottom: padding,
+                paddingRight: padding,
+                borderBottomWidth: '1px'
             }
         }
     }

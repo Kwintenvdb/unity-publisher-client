@@ -34,13 +34,14 @@ const theme = createLightTheme({
     colors: {
         linkText: LightTheme.colors.accent,
         linkVisited: LightTheme.colors.accent500,
-        linkHover: LightTheme.colors.accent600
+        linkHover: LightTheme.colors.accent600,
+        tableHeadBackgroundColor: '#f9f9f9'
     },
     typography: {
         ParagraphSmall: {
             fontSize: '16px'
         }
-    }
+    },
 });
 
 const queryCache = new QueryCache();

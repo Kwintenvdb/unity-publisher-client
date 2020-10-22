@@ -37,7 +37,7 @@ export function Authentication() {
 
     return (
         <div className="container h-full flex items-center justify-center">
-            <div className="w-1/3">
+            <div className="lg:w-1/3 w-1/2">
                 <Card title="Log in">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FormControl label={() => "Email"}>

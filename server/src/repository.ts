@@ -11,7 +11,11 @@ export class Repository {
             CREATE TABLE IF NOT EXISTS packages (
                 id INTEGER PRIMARY KEY,
                 name TEXT NOT NULL,
-                url TEXT NOT NULL
+                url TEXT NOT NULL,
+                averageRating FLOAT,
+                numRatings INTEGER NOT NULL,
+                price REAL NOT NULL,
+                version TEXT NOT NULL
             );
         `);
 
@@ -30,8 +34,11 @@ export class Repository {
 
     public storePackages(packages: PackageData[]) {
         packages.forEach(pkg => {
-            const statement = this.db.prepare('INSERT OR REPLACE INTO packages (id, name, url) VALUES (?, ?, ?)');
-            statement.run(pkg.id, pkg.name, pkg.url);
+            const statement = this.db.prepare(`INSERT OR REPLACE INTO packages
+                (id, name, url, averageRating, numRatings, price, version) VALUES
+                (?, ?, ?, ?, ?, ?, ?)
+            `);
+            statement.run(pkg.id, pkg.name, pkg.url, pkg.averageRating, pkg.numRatings || 0, pkg.price, pkg.version);
         });
     }
 

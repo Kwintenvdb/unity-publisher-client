@@ -13,7 +13,7 @@ import { AuthRoute } from './components/authentication/AuthRoute';
 import { Sidebar } from './components/common/Sidebar';
 import { Overview } from './components/Overview';
 import { Login } from './components/pages/Login';
-import { Packages } from './components/pages/Packages';
+import { Packages } from './components/pages/packages/Packages';
 import { Reviews } from './components/pages/Reviews';
 import { Settings } from './components/pages/Settings';
 import './styles/main.scss';

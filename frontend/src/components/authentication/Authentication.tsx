@@ -44,7 +44,7 @@ export function Authentication() {
     return (
         <div className="container h-full flex items-center justify-center">
             <div className="lg:w-1/3 w-1/2">
-                <Card title="Log in">
+                <Card title="Log in with your Unity ID">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FormControl label={() => "Email"}>
                             <Input name="email" type="email" placeholder="Email address" overrides={{

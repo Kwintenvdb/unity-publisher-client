@@ -30,7 +30,7 @@ export const PackageInfo: FunctionComponent<Props> = ({ pkg }) => {
                 </div>
                 <div>
                     <H4>
-                        <StarRating value={pkg.averageRating || 0} />
+                        <StarRating readOnly value={pkg.averageRating || 0} />
                     </H4>
                     <p>Average Rating ({pkg.numRatings} reviews)</p>
 

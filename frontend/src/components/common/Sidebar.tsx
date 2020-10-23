@@ -5,6 +5,8 @@ import { useAuth } from '../authentication/AuthContext';
 import { logout } from '../../api/authentication';
 import { Navigation } from 'baseui/side-navigation';
 import { Button } from 'baseui/button';
+import { useStyletron } from 'baseui';
+import { H6 } from 'baseui/typography';
 
 function SidebarItem(title: string, icon: ReactNode): ReactNode {
     return (
@@ -22,6 +24,10 @@ function SidebarItem(title: string, icon: ReactNode): ReactNode {
 export function Sidebar() {
     const location = useLocation();
     const history = useHistory();
+
+    const [css, theme] = useStyletron();
+    const background = css({ backgroundColor: theme.colors.background });
+
     const { setAuthenticated } = useAuth();
     const [logoutMutation] = useMutation(logout);
 
@@ -31,10 +37,12 @@ export function Sidebar() {
     };
 
     return (
-        <div className="w-64 h-full flex flex-col bg-white border-r">
-            <h2 className="font-semibold text-lg mb-6 text-center mt-4">
+        <div className={'w-64 h-full flex flex-col bg-white border-r ' + background}>
+            {/* <h2 className="font-semibold text-lg mb-6 text-center mt-4"> */}
+            <H6 className="mb-6 text-center mt-4">
                 Unity Publisher Client
-            </h2>
+            </H6>
+            {/* </h2> */}
 
             <Navigation
                 items={[
@@ -64,7 +72,7 @@ export function Sidebar() {
                     NavItem: {
                         style: ({ $active, $theme }) => {
                             const activeColor = $theme.colors.accent;
-                            const bgColor = $theme.colors.accent50;
+                            const bgColor = $theme.colors.backgroundLightAccent;
                             if ($active) {
                                 return {
                                     color: activeColor,

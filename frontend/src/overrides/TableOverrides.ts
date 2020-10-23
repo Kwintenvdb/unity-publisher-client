@@ -3,7 +3,10 @@ import { BuilderOverrides } from "baseui/table-semantic";
 export const tableBuilderOverrides: BuilderOverrides = {
     Root: {
         style: {
-            border: '0'
+            borderLeftWidth: '0px',
+            borderTopWidth: '0px',
+            borderRighttWidth: '0px',
+            borderBottomWidth: '0px'
         }
     },
     TableHeadCell: {

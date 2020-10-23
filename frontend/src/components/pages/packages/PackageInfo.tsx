@@ -24,7 +24,7 @@ export const PackageInfo: FunctionComponent<Props> = ({ pkg }) => {
             </div>
         }>
             <div className="w-full flex">
-                <div className="w-1/4">
+                <div className="w-1/3">
                     <H4>{formatCurrency(pkg.price)}</H4>
                     <p>Price</p>
                 </div>

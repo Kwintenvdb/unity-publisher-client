@@ -1,8 +1,9 @@
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 import { NewSaleDiffsByMonth } from 'src/api/newSaleDiff';
+import { EmailServiceInterface } from './emailServiceInterface';
 
-export class EmailService {
+export class EmailService implements EmailServiceInterface {
     private readonly mailTransporter: Mail;
 
     constructor() {

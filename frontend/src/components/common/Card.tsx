@@ -2,10 +2,10 @@ import {
     Card as BaseCard,
     StyledBody
 } from 'baseui/card';
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ReactNode } from 'react';
 
 type CardProps = {
-    title?: string;
+    title?: ReactNode;
 };
 
 const borderWidth = '0';

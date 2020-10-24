@@ -13,6 +13,7 @@ import { AuthRoute } from './components/authentication/AuthRoute';
 import { Sidebar } from './components/common/Sidebar';
 import { Overview } from './components/Overview';
 import { Login } from './components/pages/Login';
+import { Packages } from './components/pages/packages/Packages';
 import { Reviews } from './components/pages/Reviews';
 import { Settings } from './components/pages/Settings';
 import './styles/main.scss';
@@ -76,6 +77,10 @@ function App() {
 
                                                 <div className="max-h-full w-full py-10 px-16 overflow-y-auto">
                                                     <Switch>
+                                                        <AuthRoute path="/packages">
+                                                            <Packages></Packages>
+                                                        </AuthRoute>
+
                                                         <AuthRoute path="/reviews">
                                                             <Reviews></Reviews>
                                                         </AuthRoute>

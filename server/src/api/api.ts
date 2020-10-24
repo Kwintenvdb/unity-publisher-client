@@ -3,13 +3,13 @@ import { router } from './router';
 import { Repository } from '../repository';
 import { SalesByMonth } from './salesByMonth';
 import { NotificationService } from '../notification/notificationService';
-import { EmailService } from '../notification/emailService';
 import { UserService } from '../user/userService';
 import { CronJob } from 'cron';
+import { createEmailService } from '../notification/createEmailService';
 
 const repository = new Repository();
 const notificationService = new NotificationService();
-const emailService = new EmailService();
+const emailService = createEmailService();
 const userService = new UserService(repository);
 
 const api = new UnityPublisherApi();

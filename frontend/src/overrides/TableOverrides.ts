@@ -1,4 +1,4 @@
-import { BuilderOverrides } from "baseui/table-semantic";
+import { BuilderOverrides } from 'baseui/table-semantic';
 
 export const tableBuilderOverrides: BuilderOverrides = {
     Root: {

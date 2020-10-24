@@ -3,12 +3,26 @@ import { router } from './router';
 import { Repository } from '../repository';
 import { SalesByMonth } from './salesByMonth';
 import { NotificationService } from '../notification/notificationService';
+import { EmailService } from '../notification/emailService';
+import { UserService } from '../user/userService';
+import { CronJob } from 'cron';
 
 const repository = new Repository();
 const notificationService = new NotificationService();
+const emailService = new EmailService();
+const userService = new UserService(repository);
 
 const api = new UnityPublisherApi();
 let isAuthenticated = false;
+
+const cacheDataJob = new CronJob('*/5 * * * *', () => {
+    console.log('Data caching triggered by cron job.');
+    if (isAuthenticated) {
+        cacheData();
+    } else {
+        console.log('Not authenticated, ignoring job.');
+    }
+});
 
 router.get('/isAuthenticated', async ctx => {
     ctx.body = isAuthenticated;
@@ -17,23 +31,25 @@ router.get('/isAuthenticated', async ctx => {
 router.post('/authenticate', async ctx => {
     const { email, password } = ctx.request.body;
     await api.authenticate(email, password);
-    console.log('caching data...');
     await cacheData();
-    console.log('caching data done');
+    cacheDataJob.start();
     isAuthenticated = true;
     ctx.status = 200;
 });
 
 async function cacheData() {
+    console.log('Caching data...');
     await Promise.all([
         initializePackageData(),
         initializeSalesData()
     ]);
+    console.log('Caching data done.');
 }
 
 router.post('/logout', ctx => {
     console.log('Logging out...');
     api.logout();
+    cacheDataJob.stop();
     isAuthenticated = false;
     ctx.status = 200;
 });
@@ -58,9 +74,17 @@ async function initializeSalesData() {
     const salesByMonth: SalesByMonth[] = [];
     const promises = months.map(month => fetchMonthSales(month));
     await Promise.all(promises);
-    // salesByMonth.sort((s1, s2) => s1.month.value.localeCompare(s2.month.value));
-    // TODO diff the changes
-    repository.storeSales(salesByMonth);
+    salesByMonth.sort((s1, s2) => s1.month.value.localeCompare(s2.month.value));
+
+    const diffsByMonth = repository.storeSales(salesByMonth);
+    const { email, emailAlertsEnabled } = userService.getUserData() ?? {};
+    if (emailAlertsEnabled) {
+        const monthsWithNewSales = diffsByMonth.filter(d => d.newSales.length > 0);
+        if (monthsWithNewSales.length > 0) {
+            console.log('sending email for months with new sales', monthsWithNewSales);
+            emailService.sendSaleNotificationMail(email, monthsWithNewSales);
+        }
+    }
 }
 
 async function initializePackageData() {
@@ -111,5 +135,23 @@ router.post('/notifications/subscribe', ctx => {
 
 router.post('/notifications/unsubscribe', ctx => {
     notificationService.unsubscribe();
+    ctx.status = 200;
+});
+
+router.get('/email/isSubscribed', ctx => {
+    const userData = userService.getUserData() ?? {};
+    console.log(userData);
+    ctx.body = Boolean(userData.emailAlertsEnabled);
+});
+
+router.post('/email/subscribe', ctx => {
+    const { email } = ctx.request.body;
+    userService.setEmailAlertsEnabled(email, true);
+    ctx.status = 200;
+});
+
+router.post('/email/unsubscribe', ctx => {
+    const { email } = ctx.request.body;
+    userService.setEmailAlertsEnabled(email, false);
     ctx.status = 200;
 });

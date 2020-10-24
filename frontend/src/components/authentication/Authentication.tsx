@@ -5,18 +5,11 @@ import { Notification } from 'baseui/notification';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Redirect, useLocation } from 'react-router-dom';
-import superagent from 'superagent';
 import { useAuth } from './AuthContext';
 import { Card } from '../common/Card';
 import { useMutation } from 'react-query';
-
-function authenticate(data: FormData): Promise<void> {
-    return superagent.post('/api/authenticate')
-        .send(data)
-        .then(() => {
-            console.log('authenticated');
-        });
-}
+import { createFormOverrides } from 'src/overrides/InputOverrides';
+import { AuthCredentials, authenticate } from 'src/api';
 
 type LocationState = {
     referrer: Location;
@@ -24,16 +17,14 @@ type LocationState = {
 
 export function Authentication() {
     const location = useLocation<LocationState>();
-    const { register, handleSubmit } = useForm<FormData>();
+    const { register, handleSubmit } = useForm<AuthCredentials>();
     const { isAuthenticated, setAuthenticated } = useAuth();
     const [authenticateMutation, { isLoading }] = useMutation(authenticate);
 
-    const onSubmit = async (data: FormData) => {
+    const onSubmit = async (data: AuthCredentials) => {
         await authenticateMutation(data);
         setAuthenticated(true);
     };
-
-    console.log('is authenticated?', isAuthenticated);
 
     if (isAuthenticated) {
         return (
@@ -46,24 +37,12 @@ export function Authentication() {
             <div className="lg:w-1/3 w-1/2">
                 <Card title="Log in with your Unity ID">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <FormControl label={() => "Email"}>
-                            <Input name="email" type="email" placeholder="Email address" overrides={{
-                                Input: {
-                                    props: {
-                                        ref: register
-                                    }
-                                }
-                            }} />
+                        <FormControl label={() => 'Email'}>
+                            <Input name="email" type="email" placeholder="Email address" overrides={createFormOverrides(register)} />
                         </FormControl>
 
-                        <FormControl label={() => "Password"}>
-                            <Input name="password" type="password" placeholder="Password" overrides={{
-                                Input: {
-                                    props: {
-                                        ref: register
-                                    }
-                                }
-                            }} />
+                        <FormControl label={() => 'Password'}>
+                            <Input name="password" type="password" placeholder="Password" overrides={createFormOverrides(register)} />
                         </FormControl>
                         <Button type="submit" isLoading={isLoading}>Submit</Button>
                     </form>

@@ -65,7 +65,7 @@ async function initializeSalesData() {
     salesByMonth.sort((s1, s2) => s1.month.value.localeCompare(s2.month.value));
 
     const diffsByMonth = repository.storeSales(salesByMonth);
-    const { email, emailAlertsEnabled } = userService.getUserData();
+    const { email, emailAlertsEnabled } = userService.getUserData() ?? {};
     if (emailAlertsEnabled) {
         const monthsWithNewSales = diffsByMonth.filter(d => d.newSales.length > 0);
         console.log(monthsWithNewSales);
@@ -125,8 +125,9 @@ router.post('/notifications/unsubscribe', ctx => {
 });
 
 router.get('/email/isSubscribed', ctx => {
-    const { emailAlertsEnabled } = userService.getUserData();
-    ctx.body = emailAlertsEnabled;
+    const userData = userService.getUserData() ?? {};
+    console.log(userData);
+    ctx.body = Boolean(userData.emailAlertsEnabled);
 });
 
 router.post('/email/subscribe', ctx => {

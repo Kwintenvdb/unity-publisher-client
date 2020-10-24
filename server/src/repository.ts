@@ -88,13 +88,13 @@ export class Repository {
 
                 saleByMonth.sales.forEach(sale => {
                     const previousSales = getSalesStmt.get(saleByMonth.month.value, sale.packageName, sale.price);
-                    const prevNumSales = previousSales?.numSales || 0;
+                    const prevNumSales = previousSales?.numSales ?? 0;
                     if (sale.sales > prevNumSales) {
                         const numNewSales = sale.sales - prevNumSales;
                         console.log('New sales for ' + sale.packageName + ', new sales: ' + numNewSales);
                         insertSaleStmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.price, sale.gross, sale.lastSale);
 
-                        const previousGross = previousSales.gross;
+                        const previousGross = previousSales?.gross ?? 0;
                         const newGross = sale.gross;
                         diff.newSales.push({
                             packageName: sale.packageName,
@@ -129,7 +129,12 @@ export class Repository {
     }
 
     public setEmailAlertsEnabled(email: string, enabled: boolean) {
-        const stmt = this.db.prepare('INSERT OR REPLACE INTO userData (email, emailAlertsEnabled) VALUES (?, ?)');
-        stmt.run(email, enabled);
+        if (enabled) {
+            const stmt = this.db.prepare('INSERT OR REPLACE INTO userData (email, emailAlertsEnabled) VALUES (?, ?)');
+            stmt.run(email, 1);
+        } else {
+            const stmt = this.db.prepare('DELETE FROM userData');
+            stmt.run();
+        }
     }
 }

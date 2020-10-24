@@ -3,19 +3,27 @@ import superagent from 'superagent';
 import { Card } from '../common/Card';
 import { Button } from 'baseui/button';
 import { Checkbox, STYLE_TYPE } from 'baseui/checkbox';
+import { useMutation } from 'react-query';
+import { subscribeToEmailAlerts, unsubscribeFromEmailAlerts } from 'src/api';
 
 export function Settings() {
     const [isSubscribed, setSubscribed] = useState(false);
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+
+    const [subscribeMutation] = useMutation(subscribeToEmailAlerts);
+    const [unsubscribeMutation] = useMutation(unsubscribeFromEmailAlerts);
 
     useEffect(() => {
         isSubscribedToPush().then(setSubscribed);
     }, []);
 
     const isSubscribedToPush = async () => {
-        const sw = await navigator.serviceWorker.ready;
-        const sub = await sw.pushManager.getSubscription();
-        return sub !== null;
+        if ('serviceWorker' in navigator) {
+            const sw = await navigator.serviceWorker.ready;
+            const sub = await sw.pushManager.getSubscription();
+            return sub !== null;
+        }
+        return false;
     };
 
     const enableNotifications = async () => {

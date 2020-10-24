@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
+import { NewSaleDiffsByMonth } from 'src/api/newSaleDiff';
 
 export class EmailService {
     private readonly mailTransporter: Mail;
@@ -9,34 +10,24 @@ export class EmailService {
             sendmail: true,
             newline: 'unix'
         });
-
-        // transporter.sendMail({
-        //     from: 'unity-publisher-client@raspberrypi.com',
-        //     to: 'kwintenvdberghe@gmail.com',
-        //     subject: 'my test email',
-        //     text: 'test email contents 123',
-        //     // @ts-ignore
-        //     path: '/usr/sbin/sendmail'
-        // }, (err, info) => {
-        //     if (err) {
-        //         console.error(err);
-        //     }
-        //     console.log(info);
-        // });
     }
 
-    sendSaleNotificationMail() {
-        
+    sendSaleNotificationMail(email: string, newSales: NewSaleDiffsByMonth[]) {
+        const text = newSales.map(salesDiff => {
+            const sales = salesDiff.newSales.map(sale => {
+                return `${sale.numNewSales} new sales for ${sale.packageName}. New gross: ${sale.newGross}`;
+            });
+            return `${salesDiff.month.name}:\n` + sales.join('\n');
+        }).join('\n\n');
+        this.sendMail(email, 'New sales for your Unity Assets', text);
     }
 
-    sendMail(subject: string, text: string) {
+    sendMail(email: string, subject: string, text: string) {
         this.mailTransporter.sendMail({
             from: 'unity-publisher-client@raspberrypi.com',
-            to: 'kwintenvdberghe@gmail.com',
+            to: email,
             subject: subject,
-            text: text,
-            // @ts-ignore
-            // path: '/usr/sbin/sendmail'
+            text: text
         }, (err, info) => {
             if (err) {
                 console.error(err);

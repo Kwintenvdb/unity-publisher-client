@@ -2,6 +2,8 @@ import Database from 'better-sqlite3';
 import { SalesByMonth } from './api/salesByMonth';
 import { SalesDto } from '@shared/SalesDto';
 import { PackageData } from 'unity-publisher-api';
+import { NewSaleDiffsByMonth } from './api/newSaleDiff';
+import { UserData } from './user/userData';
 
 export class Repository {
     private readonly db = new Database('storage.db', { verbose: console.log });
@@ -30,6 +32,13 @@ export class Repository {
                 PRIMARY KEY (month, package, price)
             );
         `);
+
+        this.db.exec(`
+            CREATE TABLE IF NOT EXISTS userData (
+                email TEXT PRIMARY KEY,
+                emailAlertsEnabled INTEGER
+            );
+        `);
     }
 
     public storePackages(packages: PackageData[]) {
@@ -52,7 +61,7 @@ export class Repository {
         return stmt.get(name);
     }
 
-    public storeSales(sales: SalesByMonth[]) {
+    public storeSales(sales: SalesByMonth[]): NewSaleDiffsByMonth[] {
         const insertSaleStmt = this.db.prepare(`INSERT OR REPLACE INTO sales
             (month, package, numSales, price, gross, lastSale) VALUES
             (?, ?, ?, ?, ?, ?)`);
@@ -63,33 +72,52 @@ export class Repository {
             AND price = ?
         `);
 
-        // sales.push({
-        //     month: {
-        //         value: '123',
-        //         name: 'My month name'
-        //     },
-        //     sales: [{
-        //         packageName: 'test package',
-        //         gross: 123,
-        //         sales: 14,
-        //         price: 12.3
-        //     }]
-        // });
+        sales.push({
+            month: {
+                value: '123',
+                name: 'My month name'
+            },
+            sales: [{
+                packageName: 'test package',
+                gross: 510,
+                sales: 18,
+                price: 12.3,
+                lastSale: 'last sale date'
+            }]
+        });
 
         const insertAll = this.db.transaction(() => {
-            sales.forEach(saleByMonth => {
+            const diffs: NewSaleDiffsByMonth[] = sales.reduce((diffs: NewSaleDiffsByMonth[], saleByMonth) => {
+                const diff: NewSaleDiffsByMonth = {
+                    month: saleByMonth.month,
+                    newSales: []
+                };
+
                 saleByMonth.sales.forEach(sale => {
                     const previousSales = getSalesStmt.get(saleByMonth.month.value, sale.packageName, sale.price);
-                    const prevNumSales = previousSales?.numSales || 0;
+                    const prevNumSales = previousSales?.numSales ?? 0;
                     if (sale.sales > prevNumSales) {
                         const numNewSales = sale.sales - prevNumSales;
                         console.log('New sales for ' + sale.packageName + ', new sales: ' + numNewSales);
                         insertSaleStmt.run(saleByMonth.month.value, sale.packageName, sale.sales, sale.price, sale.gross, sale.lastSale);
+
+                        const previousGross = previousSales?.gross ?? 0;
+                        const newGross = sale.gross;
+                        diff.newSales.push({
+                            packageName: sale.packageName,
+                            numNewSales,
+                            previousGross,
+                            newGross
+                        });
                     }
                 });
-            });
+
+                diffs.push(diff);
+                return diffs;
+            }, []);
+            return diffs;
         });
-        insertAll();
+        return insertAll();
     }
 
     public getSales(): SalesDto[] {
@@ -100,5 +128,20 @@ export class Repository {
     public getSalesByMonth(month: number): SalesDto[] {
         const stmt = this.db.prepare('SELECT * FROM sales WHERE month = ?');
         return stmt.all(month);
+    }
+
+    public getUserData(): UserData {
+        const stmt = this.db.prepare('SELECT * FROM userData');
+        return stmt.get();
+    }
+
+    public setEmailAlertsEnabled(email: string, enabled: boolean) {
+        if (enabled) {
+            const stmt = this.db.prepare('INSERT OR REPLACE INTO userData (email, emailAlertsEnabled) VALUES (?, ?)');
+            stmt.run(email, 1);
+        } else {
+            const stmt = this.db.prepare('DELETE FROM userData');
+            stmt.run();
+        }
     }
 }

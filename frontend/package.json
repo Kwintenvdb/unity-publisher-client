@@ -26,10 +26,10 @@
         "superagent": "^6.1.0",
         "tailwindcss": "^1.8.12",
         "typescript": "^3.7.5",
-        "unity-publisher-api": "0.1.0"
+        "unity-publisher-api": "Kwintenvdb/unity-publisher-api"
     },
     "scripts": {
-        "start": "set PORT=3333 && tsc -b && craco start && cra-append-sw ./src/custom-sw.js",
+        "start": "tsc -b && craco start && cra-append-sw ./src/custom-sw.js",
         "build": "tsc -b && craco build && cra-append-sw ./src/custom-sw.js",
         "test": "react-scripts test",
         "eject": "react-scripts eject"

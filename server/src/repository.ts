@@ -72,19 +72,19 @@ export class Repository {
             AND price = ?
         `);
 
-        sales.push({
-            month: {
-                value: '123',
-                name: 'My month name'
-            },
-            sales: [{
-                packageName: 'test package',
-                gross: 510,
-                sales: 18,
-                price: 12.3,
-                lastSale: 'last sale date'
-            }]
-        });
+        // sales.push({
+        //     month: {
+        //         value: '123',
+        //         name: 'My month name'
+        //     },
+        //     sales: [{
+        //         packageName: 'test package',
+        //         gross: 510,
+        //         sales: 18,
+        //         price: 12.3,
+        //         lastSale: 'last sale date'
+        //     }]
+        // });
 
         const insertAll = this.db.transaction(() => {
             const diffs: NewSaleDiffsByMonth[] = sales.reduce((diffs: NewSaleDiffsByMonth[], saleByMonth) => {

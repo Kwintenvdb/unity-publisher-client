@@ -10,11 +10,12 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { getReviews } from 'src/api';
 import { ReviewData } from 'unity-publisher-api';
-import { tableBuilderOverrides } from '../../overrides/TableOverrides';
+import { useTableBuilderOverrides } from '../../overrides/TableOverrides';
 import { Card } from '../common/Card';
 
 export function Reviews() {
     const { data: reviews, isLoading } = useQuery('reviews', getReviews);
+    const tableOverrides = useTableBuilderOverrides();
 
     function averageRating(): number {
         if (!reviews) return 0;
@@ -45,7 +46,7 @@ export function Reviews() {
             <Card title="Reviews">
                 {isLoading
                     ? <Skeleton width="100%" height="100px" rows={4} animation />
-                    : <TableBuilder data={reviews as ReviewData[]} overrides={tableBuilderOverrides}>
+                    : <TableBuilder data={reviews as ReviewData[]} overrides={tableOverrides}>
                         <TableBuilderColumn header="Package">
                             {review => review.package}
                         </TableBuilderColumn>

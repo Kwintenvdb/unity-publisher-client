@@ -7,6 +7,7 @@ import { Navigation } from 'baseui/side-navigation';
 import { Button } from 'baseui/button';
 import { useStyletron } from 'baseui';
 import { H6 } from 'baseui/typography';
+import { useTheme } from '../../theme/ThemeContext';
 
 function SidebarItem(title: string, icon: ReactNode): ReactNode {
     return (
@@ -25,8 +26,11 @@ export function Sidebar() {
     const location = useLocation();
     const history = useHistory();
 
+    const { darkTheme, setDarkTheme } = useTheme();
     const [css, theme] = useStyletron();
-    const background = css({ backgroundColor: theme.colors.background });
+    const background = css({
+        backgroundColor: theme.colors.backgroundPrimary,
+    });
 
     const { setAuthenticated } = useAuth();
     const [logoutMutation] = useMutation(logout);
@@ -36,8 +40,12 @@ export function Sidebar() {
         setAuthenticated(false);
     };
 
+    const toggleTheme = () => {
+        setDarkTheme(!darkTheme);
+    };
+
     return (
-        <div className={'w-64 h-full flex flex-col bg-white border-r ' + background}>
+        <div className={'w-64 h-full flex flex-col bg-white ' + background}>
             {/* <h2 className="font-semibold text-lg mb-6 text-center mt-4"> */}
             <H6 className="mb-6 text-center mt-4">
                 Unity Publisher Client
@@ -71,25 +79,26 @@ export function Sidebar() {
                 overrides={{
                     NavItem: {
                         style: ({ $active, $theme }) => {
-                            const activeColor = $theme.colors.accent;
+                            const textColor = darkTheme ? $theme.colors.primaryA : $theme.colors.accent;
+                            const borderColor = $theme.colors.accent;
                             const bgColor = $theme.colors.backgroundLightAccent;
                             if ($active) {
                                 return {
-                                    color: activeColor,
+                                    color: textColor,
                                     backgroundColor: bgColor,
                                     backgroundImage: 'none',
                                     borderRightWidth: '4px',
                                     borderLeftWidth: '0',
-                                    borderRightColor: activeColor,
+                                    borderRightColor: borderColor,
                                     ':hover': {
-                                        color: activeColor
+                                        color: textColor
                                     }
                                 };
                             }
                             return {
                                 borderLeftWidth: '0',
                                 ':hover': {
-                                    color: activeColor
+                                    color: textColor
                                 }
                             };
                         }
@@ -98,6 +107,22 @@ export function Sidebar() {
             />
 
             <div className="flex-1"></div>
+
+            <Button
+                kind="minimal"
+                overrides={{
+                    Root: {
+                        style: {
+                            marginLeft: '24px',
+                            marginRight: '24px',
+                            marginBottom: '14px'
+                        }
+                    }
+                }}
+                onClick={toggleTheme}
+            >
+                Toggle Theme
+            </Button>
 
             <Button
                 kind="secondary"

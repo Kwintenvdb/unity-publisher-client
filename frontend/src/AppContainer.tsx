@@ -8,10 +8,12 @@ import { Reviews } from './components/pages/Reviews';
 import { Settings } from './components/pages/Settings';
 import { Overview } from './components/Overview';
 import { useStyletron } from 'baseui';
+import { useTheme } from './theme/ThemeContext';
 
 export function AppContainer() {
+    const { darkTheme } = useTheme();
     const [css, theme] = useStyletron();
-    const background = css({ backgroundColor: theme.colors.background });
+    const background = css({ backgroundColor: darkTheme ? theme.colors.background : theme.colors.backgroundSecondary });
 
     return (
         <div className={'h-full ' + background}>

@@ -6,8 +6,8 @@ import { Client as Styletron } from 'styletron-engine-atomic';
 import { Provider as StyletronProvider } from 'styletron-react';
 import { AppContainer } from './AppContainer';
 import { AuthProvider } from './components/authentication/AuthContext';
-import './styles/main.scss';
 import './styles/tailwind.css';
+import './styles/main.scss';
 import { ThemeContext, ThemeState } from './theme/ThemeContext';
 
 const engine = new Styletron();

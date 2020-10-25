@@ -9,6 +9,10 @@ body {
     @apply h-full;
 }
 
+:focus {
+    outline: none !important;
+}
+
 .header {
     // background-color: #2985ee;
     // @apply text-white;

@@ -2,10 +2,10 @@ import { Select, Value } from 'baseui/select';
 import { H5 } from 'baseui/typography';
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
-import { getMonths } from '../api';
-import { MonthlySalesOverview } from './pages/sales/MonthlySalesOverview';
+import { getMonths } from 'src/api';
+import { MonthlySalesOverview } from './MonthlySalesOverview';
 
-export function Overview() {
+export function MonthlyTab() {
     // TODO transform months data in getter function
     const { data: months, isLoading: monthsLoading } = useQuery('months', getMonths);
     const [selectedMonth, setSelectedMonth] = useState<Value>([]);

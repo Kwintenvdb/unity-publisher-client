@@ -6,7 +6,7 @@ import { AuthRoute } from './components/authentication/AuthRoute';
 import { Packages } from './components/pages/packages/Packages';
 import { Reviews } from './components/pages/Reviews';
 import { Settings } from './components/pages/Settings';
-import { Overview } from './components/Overview';
+import { Sales } from './components/pages/sales/Sales';
 import { useStyletron } from 'baseui';
 import { useTheme } from './theme/ThemeContext';
 
@@ -44,7 +44,7 @@ export function AppContainer() {
                                         </AuthRoute>
 
                                         <AuthRoute path="/" exact strict>
-                                            <Overview></Overview>
+                                            <Sales></Sales>
                                         </AuthRoute>
                                     </Switch>
                                 </div>

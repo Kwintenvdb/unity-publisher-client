@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useRef } from 'react';
 import { SalesDto } from '@shared/SalesDto'
 import { Chart } from 'chart.js';
 import 'chartjs-plugin-colorschemes';
-import { getDistinctElements } from '../../../utils/distinctElements';
+import { getDistinctElements } from 'src/utils/distinctElements';
 
 type MonthlySalesChartProps = {
     sales: SalesDto[];

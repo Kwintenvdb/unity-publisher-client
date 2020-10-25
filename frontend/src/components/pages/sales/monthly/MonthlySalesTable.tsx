@@ -5,8 +5,8 @@ import {
     TableBuilder,
     TableBuilderColumn,
 } from 'baseui/table-semantic';
-import { formatCurrency } from '../../../utils/formatCurrency';
-import { useTableBuilderOverrides } from '../../../overrides/TableOverrides';
+import { formatCurrency } from 'src/utils/formatCurrency';
+import { useTableBuilderOverrides } from 'src/overrides/TableOverrides';
 
 type Props = {
     sales: SalesDto[];

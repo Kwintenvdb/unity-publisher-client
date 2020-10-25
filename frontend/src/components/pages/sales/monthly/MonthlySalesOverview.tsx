@@ -1,6 +1,6 @@
 import { SalesDto } from '@shared/SalesDto';
 import { Skeleton } from 'baseui/skeleton';
-import { H5 } from 'baseui/typography';
+import { H3, H5 } from 'baseui/typography';
 import React from 'react';
 import { useQuery } from 'react-query';
 import { getSales } from 'src/api/sales';
@@ -51,16 +51,16 @@ export function MonthlySalesOverview({ month }: Props) {
                             <Card title="Revenue">
                                 <div className="flex">
                                     <div className="w-1/2">
-                                        <h1 className="text-3xl font-bold">
+                                        <H3 color="contentAccent">
                                             {formatCurrency(salesTotalGross())}
                                             <span className="text-lg font-normal ml-1"> gross</span>
-                                        </h1>
+                                        </H3>
                                     </div>
                                     <div className="w-1/2">
-                                        <h1 className="text-3xl font-bold">
+                                        <H3 color="contentPositive">
                                             {formatCurrency(salesTotalNet())}
                                             <span className="text-lg font-normal ml-1"> net</span>
-                                        </h1>
+                                        </H3>
                                     </div>
                                 </div>
                             </Card>

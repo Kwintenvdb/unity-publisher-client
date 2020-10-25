@@ -12,6 +12,7 @@ export function Sales() {
             onChange={({ activeKey }) => {
                 setActiveKey(Number(activeKey));
             }}
+            fill="fixed"
             activateOnFocus
             overrides={{
                 TabHighlight: {

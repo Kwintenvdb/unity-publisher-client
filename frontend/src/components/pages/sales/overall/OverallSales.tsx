@@ -6,6 +6,7 @@ import { getAllSales } from 'src/api/sales';
 import { SalesDto } from '@shared/SalesDto';
 import { formatCurrency } from 'src/utils/formatCurrency';
 import { useStyletron } from 'baseui';
+import { H3 } from 'baseui/typography';
 
 export function OverallSales() {
     const { data: allSales } = useQuery('allSales', getAllSales);
@@ -111,16 +112,16 @@ export function OverallSales() {
                 <Card title="All Time Revenue">
                     <div className="flex">
                         <div className="w-1/2">
-                            <h1 className="text-3xl font-bold">
+                            <H3 color="contentAccent">
                                 {formatCurrency(salesTotalGross())}
                                 <span className="text-lg font-normal ml-1"> gross</span>
-                            </h1>
+                            </H3>
                         </div>
                         <div className="w-1/2">
-                            <h1 className="text-3xl font-bold">
+                            <H3 color="contentPositive">
                                 {formatCurrency(salesTotalNet())}
                                 <span className="text-lg font-normal ml-1"> net</span>
-                            </h1>
+                            </H3>
                         </div>
                     </div>
                 </Card>

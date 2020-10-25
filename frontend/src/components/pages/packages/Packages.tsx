@@ -10,7 +10,7 @@ export function Packages() {
     return (
         <div>
             <H4 className="mb-6">Packages</H4>
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid lg:grid-cols-1 xl:grid-cols-2 gap-6">
                 {packages?.map(pkg => {
                     return (
                         <div key={pkg.id}>

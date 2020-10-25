@@ -3,7 +3,7 @@ import { H5 } from 'baseui/typography';
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import { getMonths } from '../api';
-import { MonthlySalesOverview } from './pages/overview/MonthlySalesOverview';
+import { MonthlySalesOverview } from './pages/sales/MonthlySalesOverview';
 
 export function Overview() {
     // TODO transform months data in getter function

@@ -7,7 +7,7 @@ import { MonthlySalesOverview } from './pages/overview/MonthlySalesOverview';
 
 export function Overview() {
     // TODO transform months data in getter function
-    const { data: months } = useQuery('months', getMonths);
+    const { data: months, isLoading: monthsLoading } = useQuery('months', getMonths);
     const [selectedMonth, setSelectedMonth] = useState<Value>([]);
 
     const monthsOptions: Value | undefined = months?.map(m => ({ id: m.value, label: m.name }));
@@ -39,6 +39,7 @@ export function Overview() {
                                 options={monthsOptions}
                                 maxDropdownHeight="300px"
                                 clearable={false}
+                                isLoading={monthsLoading}
                                 overrides={{
                                     SingleValue: {
                                         style: ({ $theme }) => {

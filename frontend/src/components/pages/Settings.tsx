@@ -2,6 +2,7 @@ import { Button } from 'baseui/button';
 import { FormControl } from 'baseui/form-control';
 import { Input } from 'baseui/input';
 import { KIND, Notification } from 'baseui/notification';
+import { H4 } from 'baseui/typography';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery, useQueryCache } from 'react-query';
@@ -42,7 +43,7 @@ export function Settings() {
 
     return (
         <div>
-            <h2 className="font-semibold mb-4">Settings</h2>
+            <H4 className="mb-6">Settings</H4>
 
             <Card title="Notification Settings">
                 <div className="mb-4">

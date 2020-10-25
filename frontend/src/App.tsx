@@ -22,7 +22,7 @@ function App() {
     const borderRadius = LightTheme.borders.radius200;
     const themeCreationFunction = darkTheme ? createDarkTheme : createLightTheme;
     const theme = themeCreationFunction({
-        // primaryFontFamily: 'Lato'
+        // primaryFontFamily: 'Muli'
     }, {
         borders: {
             surfaceBorderRadius: borderRadius,

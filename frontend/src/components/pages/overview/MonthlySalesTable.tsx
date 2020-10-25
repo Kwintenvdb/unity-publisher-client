@@ -6,7 +6,7 @@ import {
     TableBuilderColumn,
 } from 'baseui/table-semantic';
 import { formatCurrency } from '../../../utils/formatCurrency';
-import { tableBuilderOverrides } from '../../../overrides/TableOverrides';
+import { useTableBuilderOverrides } from '../../../overrides/TableOverrides';
 
 type Props = {
     sales: SalesDto[];
@@ -15,7 +15,7 @@ type Props = {
 export function MonthlySalesTable({ sales }: Props) {
     return (
         <div>
-            <TableBuilder data={sales} overrides={tableBuilderOverrides}>
+            <TableBuilder data={sales} overrides={useTableBuilderOverrides()}>
                 <TableBuilderColumn header="Package">
                     {row => <Link href={row.packageUrl}>{row.package}</Link>}
                 </TableBuilderColumn>

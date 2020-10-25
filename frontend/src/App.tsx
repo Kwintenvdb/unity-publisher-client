@@ -1,4 +1,5 @@
 import { BaseProvider, createDarkTheme, createLightTheme, LightTheme } from 'baseui';
+import Cookies from 'js-cookie';
 import React, { useState } from 'react';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
 import { Client as Styletron } from 'styletron-engine-atomic';
@@ -7,16 +8,23 @@ import { AppContainer } from './AppContainer';
 import { AuthProvider } from './components/authentication/AuthContext';
 import './styles/main.scss';
 import './styles/tailwind.css';
-import { ThemeState, ThemeContext } from './theme/ThemeContext';
+import { ThemeContext, ThemeState } from './theme/ThemeContext';
 
 const engine = new Styletron();
 const queryCache = new QueryCache();
 
 function App() {
-    const [darkTheme, setDarkTheme] = useState(false);
+    const darkThemeFromCookie = Cookies.get('darkTheme') === 'true';
+    const [darkTheme, setDarkTheme] = useState(darkThemeFromCookie);
+
+    const setDarkThemeWithCookie = (dark: boolean) => {
+        setDarkTheme(dark);
+        Cookies.set('darkTheme', String(dark));
+    };
+
     const themeState: ThemeState = {
         darkTheme,
-        setDarkTheme
+        setDarkTheme: setDarkThemeWithCookie
     };
 
     const borderRadius = LightTheme.borders.radius200;

@@ -12,6 +12,14 @@ export function OverallSales() {
     const [css, theme] = useStyletron();
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
+    const salesTotalGross = () => {
+        return allSales?.reduce((sum: number, value: SalesDto) => sum + value.gross, 0) ?? 0;
+    };
+
+    const salesTotalNet = () => {
+        return salesTotalGross() * 0.7;
+    }
+
     useEffect(() => {
         let chart: Chart;
 
@@ -99,6 +107,24 @@ export function OverallSales() {
 
     return (
         <div className="mt-5">
+            <div className="mb-6">
+                <Card title="All Time Revenue">
+                    <div className="flex">
+                        <div className="w-1/2">
+                            <h1 className="text-3xl font-bold">
+                                {formatCurrency(salesTotalGross())}
+                                <span className="text-lg font-normal ml-1"> gross</span>
+                            </h1>
+                        </div>
+                        <div className="w-1/2">
+                            <h1 className="text-3xl font-bold">
+                                {formatCurrency(salesTotalNet())}
+                                <span className="text-lg font-normal ml-1"> net</span>
+                            </h1>
+                        </div>
+                    </div>
+                </Card>
+            </div>
             <Card title="Sales Over Time">
                 <canvas ref={canvasRef} height="200" width="400"></canvas>
             </Card>

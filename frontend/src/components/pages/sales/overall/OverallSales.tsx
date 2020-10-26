@@ -7,11 +7,10 @@ import { SalesDto } from '@shared/SalesDto';
 import { formatCurrency } from 'src/utils/formatCurrency';
 import { useStyletron } from 'baseui';
 import { H3 } from 'baseui/typography';
-import { stringify } from 'querystring';
 
 export function OverallSales() {
     const { data: allSales } = useQuery('allSales', getAllSales);
-    const [css, theme] = useStyletron();
+    const [, theme] = useStyletron();
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const months = Array.from(new Set(allSales?.map(s => s.month))).sort();
 

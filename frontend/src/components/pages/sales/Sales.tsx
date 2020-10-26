@@ -4,7 +4,7 @@ import { MonthlyTab } from './monthly/MonthlyTab';
 import { OverallSales } from './overall/OverallSales';
 
 export function Sales() {
-    const [activeKey, setActiveKey] = useState(1);
+    const [activeKey, setActiveKey] = useState(0);
 
     return (
         <Tabs

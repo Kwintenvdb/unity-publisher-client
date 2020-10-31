@@ -3,9 +3,6 @@ import serve from 'koa-static';
 import bodyParser from 'koa-bodyparser';
 import path from 'path';
 import { router } from './api';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 const app = new Koa();
 app.use(bodyParser());

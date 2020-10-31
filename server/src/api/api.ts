@@ -2,13 +2,11 @@ import { MonthData, UnityPublisherApi } from 'unity-publisher-api';
 import { router } from './router';
 import { Repository } from '../repository';
 import { SalesByMonth } from './salesByMonth';
-import { NotificationService } from '../notification/notificationService';
 import { UserService } from '../user/userService';
 import { CronJob } from 'cron';
 import { createEmailService } from '../notification/createEmailService';
 
 const repository = new Repository();
-const notificationService = new NotificationService();
 const emailService = createEmailService();
 const userService = new UserService(repository);
 
@@ -54,13 +52,6 @@ router.post('/logout', ctx => {
     ctx.status = 200;
 });
 
-/**
- * TODO:
- * - Run this as a job every X minutes
- * - Log the diff of all sales
- *   - DO NOT do this the first time the script is run
- * - Send email alerts when there are new sales
- */
 async function initializeSalesData() {
     async function fetchMonthSales(month: MonthData) {
         const sales = await api.getSalesData(month.value);
@@ -104,7 +95,6 @@ router.get('/sales/:month', async ctx => {
         const pkg = repository.getPackageByName(sbm.package);
         sbm.packageUrl = pkg.url;
     });
-    console.log(salesByMonth);
     ctx.body = salesByMonth;
 });
 
@@ -121,21 +111,6 @@ router.get('/packages', async ctx => {
 router.get('/reviews', async ctx => {
     console.log('getting reviews');
     ctx.body = await api.getReviewData();
-});
-
-router.post('/notifications/subscribe', ctx => {
-    console.log('subscribing to notifications');
-    notificationService.subscribe(ctx.request.body);
-    ctx.status = 200;
-
-    setInterval(() => {
-        notificationService.sendNotification('my notification 1234');
-    }, 3000);
-});
-
-router.post('/notifications/unsubscribe', ctx => {
-    notificationService.unsubscribe();
-    ctx.status = 200;
 });
 
 router.get('/email/isSubscribed', ctx => {

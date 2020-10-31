@@ -6,7 +6,7 @@ import { NewSaleDiffsByMonth } from './api/newSaleDiff';
 import { UserData } from './user/userData';
 
 export class Repository {
-    private readonly db = new Database('storage.db', { verbose: console.log });
+    private readonly db = new Database('storage.db');
 
     constructor() {
         this.db.exec(`
@@ -71,20 +71,6 @@ export class Repository {
             AND package = ?
             AND price = ?
         `);
-
-        // sales.push({
-        //     month: {
-        //         value: '123',
-        //         name: 'My month name'
-        //     },
-        //     sales: [{
-        //         packageName: 'test package',
-        //         gross: 510,
-        //         sales: 18,
-        //         price: 12.3,
-        //         lastSale: 'last sale date'
-        //     }]
-        // });
 
         const insertAll = this.db.transaction(() => {
             const diffs: NewSaleDiffsByMonth[] = sales.reduce((diffs: NewSaleDiffsByMonth[], saleByMonth) => {

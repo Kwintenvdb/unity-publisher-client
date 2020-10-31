@@ -19,7 +19,8 @@ function App() {
 
     const setDarkThemeWithCookie = (dark: boolean) => {
         setDarkTheme(dark);
-        Cookies.set('darkTheme', String(dark));
+        // Expires after 100 days
+        Cookies.set('darkTheme', String(dark), { expires: 100 });
     };
 
     const themeState: ThemeState = {

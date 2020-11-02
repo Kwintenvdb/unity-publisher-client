@@ -2,7 +2,7 @@
 
 A beautiful app that makes use of [Unity Publisher API](https://github.com/Kwintenvdb/unity-publisher-api) to fetch and visualize data from Unity's Asset Store Publisher management.
 
-
+![screenshot](screenshot.png)
 
 ## Why?
 
@@ -61,6 +61,15 @@ npm i pm2 -g
 cd server
 pm2 start ecosystem.config.js
 ```
+
+## Features
+* Display sales data in a beautiful interface
+   * View sales by month or total (all time) sales
+   * Handy graphs for quickly viewing sales ratios and growth over time
+* An overview of all your Asset Store packages and their average ratings
+* An overview of all reviews for your assets
+* Email alerts for new sales
+* Toggle between a beautiful light or dark theme
 
 ## Roadmap
 

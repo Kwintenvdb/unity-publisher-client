@@ -8,10 +8,10 @@ COPY /frontend/package*.json /frontend/./
 COPY . .
 
 WORKDIR /server
-RUN npm ci
+RUN npm ci && npm run build
 
 WORKDIR /frontend
-RUN npm ci
+RUN npm ci && npm run build
 
 WORKDIR /server
 

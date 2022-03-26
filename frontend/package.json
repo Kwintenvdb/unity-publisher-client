@@ -21,7 +21,7 @@
         "react-query": "^2.23.1",
         "react-query-devtools": "^2.6.0",
         "react-router-dom": "^5.2.0",
-        "react-scripts": "3.4.3",
+        "react-scripts": "^5.0.0",
         "styletron-engine-atomic": "^1.4.6",
         "styletron-react": "^5.2.7",
         "superagent": "^6.1.0",
@@ -52,7 +52,7 @@
         ]
     },
     "devDependencies": {
-        "@craco/craco": "^5.7.0",
+        "@craco/craco": "^6.4.3",
         "@tailwindcss/custom-forms": "^0.2.1",
         "@types/chart.js": "^2.9.25",
         "@types/js-cookie": "^2.2.6",
@@ -63,7 +63,7 @@
         "craco-alias": "^2.1.1",
         "cross-env": "^7.0.2",
         "module-alias": "^2.2.2",
-        "node-sass": "^4.14.1",
-        "postcss-extend": "^1.0.5"
+        "postcss-extend": "^1.0.5",
+        "sass": "^1.49.9"
     }
 }

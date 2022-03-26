@@ -2,7 +2,7 @@ const CracoAlias = require("craco-alias");
 
 module.exports = {
     style: {
-        postcss: {
+        postcssOptions: {
             plugins: [
                 require('tailwindcss')('./tailwind.config.js'),
                 require('postcss-extend')

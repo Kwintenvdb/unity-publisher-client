@@ -1,0 +1,5 @@
+shared/dist
+server/dist
+server/node_modules
+frontend/build
+frontend/node_modules

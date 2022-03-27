@@ -11,9 +11,9 @@
         "@types/react": "^16.9.50",
         "@types/react-dom": "^16.9.8",
         "baseui": "^9.103.0",
+        "caniuse-lite": "^1.0.30001320",
         "chart.js": "^2.9.3",
         "chartjs-plugin-colorschemes": "^0.4.0",
-        "cra-append-sw": "^2.7.0",
         "js-cookie": "^2.2.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
@@ -30,8 +30,8 @@
         "unity-publisher-api": "Kwintenvdb/unity-publisher-api"
     },
     "scripts": {
-        "start": "tsc -b && craco start && cra-append-sw ./src/custom-sw.js",
-        "build": "tsc -b && craco build && cra-append-sw ./src/custom-sw.js",
+        "start": "tsc -b && craco start",
+        "build": "tsc -b && craco build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

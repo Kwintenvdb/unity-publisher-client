@@ -5,11 +5,17 @@ COPY /frontend/package*.json /frontend/./
 
 COPY . .
 
+ENV NODE_ENV=development
 WORKDIR /server
-RUN npm ci && npm run build
+RUN npm ci
+ENV NODE_ENV=production
+RUN npm run build
 
 WORKDIR /frontend
-RUN npm ci && npm run build
+ENV NODE_ENV=development
+RUN npm ci
+ENV NODE_ENV=production
+RUN npm run build
 
 WORKDIR /server
 

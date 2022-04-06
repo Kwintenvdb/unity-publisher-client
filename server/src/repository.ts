@@ -111,7 +111,7 @@ export class Repository {
         return stmt.all();
     }
 
-    public getSalesByMonth(month: number): SalesDto[] {
+    public getSalesByMonth(month: string): SalesDto[] {
         const stmt = this.db.prepare('SELECT * FROM sales WHERE month = ?');
         return stmt.all(month);
     }

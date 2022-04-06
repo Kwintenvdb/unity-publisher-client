@@ -1,21 +1,27 @@
-FROM node:16.14.2
+FROM node:16.14.2-alpine3.15
 
-COPY /server/package*.json /server/./
-COPY /frontend/package*.json /frontend/./
+RUN apk --no-cache add curl
+RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 
-COPY . .
+COPY /server/pnpm-lock.yaml /server/./
+COPY /frontend/pnpm-lock.yaml /frontend/./
+
+RUN cd server && pnpm fetch
+RUN cd frontend && pnpm fetch
+
+ADD . ./
 
 ENV NODE_ENV=development
 WORKDIR /server
-RUN npm ci
+RUN pnpm install -r --offline
 ENV NODE_ENV=production
-RUN npm run build
+RUN pnpm run build
 
 WORKDIR /frontend
 ENV NODE_ENV=development
-RUN npm ci
+RUN pnpm install -r --offline
 ENV NODE_ENV=production
-RUN npm run build
+RUN pnpm run build
 
 WORKDIR /server
 

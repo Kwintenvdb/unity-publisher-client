@@ -1,6 +1,6 @@
-FROM node:16.14.2-alpine3.15
+FROM node:lts-alpine3.15
 
-RUN apk --no-cache add curl
+RUN apk add --no-cache curl
 RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 
 COPY /server/pnpm-lock.yaml /server/./
